@@ -14,7 +14,7 @@ def Julian(year):
     # With 0 is Sunday, 1 is Monday, etc.
     march = pfm + 7 - dow
     april = pfm - 24 - dow
-    if march >= 31: return (april, 4)
+    if march > 31: return (april, 4)
     else: return (march, 3)
 ```
 ### Julian Typikon Computus
@@ -31,7 +31,7 @@ def Typikon(year):
     dow = (pfm - m) % 7
     march = pfm + 7 - dow
     april = pfm - 24 - dow
-    if march >= 31: return (april, 4)
+    if march > 31: return (april, 4)
     else: return (march, 3)
 ```
 
@@ -51,22 +51,94 @@ def Clavian(year):
     dow = (year + year // 4 - d + pfm) % 7
     march = pfm + 7 - dow
     april = pfm - 24 - dow
-    if march >= 31: return (april, 4)
+    if march > 31: return (april, 4)
     else: return (march, 3)
 ```
 ### Bradleyan Computus (by James Bradley, from Calendar (New Style) Act 1750 and Book of Common Prayer)
 ```python
 def Bradley(year):
     g = year % 19 + 1
-    k = year // 10
+    k = year // 100
     s = k - 16 - (k - 16) // 4
     l = 8 * (k - 14) // 25
     c = s - l # Cypher
-    p = (3 - 11 * g + c) % 30 if y > 1582 else (26 - 11 * g) % 30 # Paschal full moon
+    p = (3 - 11 * g + c) % 30 if year > 1582 else (26 - 11 * g) % 30 # Paschal full moon
     if p == 29 or (p == 28 and g > 11): p -= 1 # Edge case
-    d = (y + y // 4 - k + k // 4) % 7 if y > 1582 else (y + y // 4 + 5) % 7 # DOW of January 1
+    d = (year + year // 4 - k + k // 4) % 7 if year > 1582 else (year + year // 4 + 5) % 7 # DOW of January 1
     march = p + 22 + (4 - d - p) % 7
     april = p - 9 + (4 - d - p) % 7
-    if march >= 31: return (april, 4)
+    if march > 31: return (april, 4)
     else: return (march, 3)    
 ```
+
+## Modern Easter Algorithms
+### Gaussian Computus (by Carl Friedrich Gauss 1800, 1816):
+```python
+def Easter(year):
+    a = year % 19
+    b = year % 4
+    c = year % 7
+    k = year // 100
+    p = (8 * k + 13) // 25
+    q = k // 4
+    m = (15 + k - p - q) % 30 if year > 1582 else 15 # Lunar constant
+    n = (4 + k - q) % 30 if year > 1582 else 6 # Solar constant
+    d = (19 * a + m) % 30 # Epact
+    if d == 29 or (d == 28 and a > 10): d -= 1 # Edge case
+    e = (2 * a + 4 * b + 6 * d + e) % 7 # Days till Easter
+    march = d + e + 22
+    april = d - e - 9
+    if march > 31: return (april, 4)
+    else: return (march, 3)
+```
+### Carterian Computus (from Royal Greenwich Obversatory, 1996, expanded to include Julian and Gregorian dates)
+```python
+def Carter(y):
+    a = y % 19
+    k = y // 100
+    s = k - k // 4 - 12 # Solar correction
+    m = 8 * (k - 14) // 25 # Lunar correction
+    b = 202 + s - m - 11 * a if y > 1582 else 225 - 11 * a
+    d = b % 30 + 21 # PFM
+    # Simpler: d = (19 * a + 22 + s - m) % 30 + 21 (eliminating b)
+    if d == 50 or (d == 49 and a > 10): d -= 1 # Edge case
+    e = (y + y // 4 - d - 10 - s) % 7 if y > 1582 else (y + y // 4) % 7
+    march = d + 7 - e
+    april = d - 24 - e
+    if march > 31: return (april, 4)
+    else: return (march, 3)
+```
+### Knuthian Computus (by Donald Knuth)
+```python
+def Knuth(y):
+    golden = y % 19 + 1
+    e_1582 = (11 * golden - 10) % 30
+    k = y // 100 + 1
+    sol = (3 * k) // 4 - 12
+    lun = (8 * k + 5) // 25 - 5
+    epact = (e_1582 + l - s) % 30 if y > 1582 else (e_1582 + 7) % 30
+    if epact == 24 or (epact == 25 and golden > 11): epact += 1 # Edge case
+    pfm = 44 - f if f < 24 else 74 - f
+    fsd = (10 + sol - (5 * year) // 4) % 7 if y > 1582 else ((-5 * year) // 4) % 7 # First Sunday of March
+    dow = (pfm + 7 - fsd) % 7
+    march = pfm + 7 - dow
+    april = pfm - 24 - dow
+    if march > 31: return (april, 4)
+    else: return (march, 3)
+```
+### Oudinian Gregorian Computus (by JM Oudin (1940))
+```python
+def Oudin(m):
+    # m stands for a year
+    a = m % 19
+    c = m // 100
+    k = (c - 17) // 25
+    r = (c - c // 4 - (c - k) // 3 + 19 * a + 15) % 30
+    if r == 29 or (r == 28 and a > 10): r -= 1
+    j = (m + m // 4 + r + 2 - c + c // 4) % 7
+    march = 28 + r - j
+    april = r - j - 3
+    if march > 31: return (april, 4)
+    else: return (march, 3)
+```
+    
