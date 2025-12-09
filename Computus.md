@@ -108,7 +108,7 @@ def Carter(y):
     if march > 31: return (april, 4)
     else: return (march, 3)
 ```
-### Knuthian Computus (by Donald Knuth)
+### Knuthian Computus (by Donald Knuth, from his "The Art of Computer Programming")
 ```python
 def Knuth(y):
     golden = y % 19 + 1
@@ -116,10 +116,10 @@ def Knuth(y):
     k = y // 100 + 1
     sol = (3 * k) // 4 - 12
     lun = (8 * k + 5) // 25 - 5
-    epact = (e_1582 + l - s) % 30 if y > 1582 else (e_1582 + 7) % 30
+    epact = (e_1582 + lun - sol) % 30 if y > 1582 else (e_1582 + 7) % 30
     if epact == 24 or (epact == 25 and golden > 11): epact += 1 # Edge case
-    pfm = 44 - f if f < 24 else 74 - f
-    fsd = (10 + sol - (5 * year) // 4) % 7 if y > 1582 else ((-5 * year) // 4) % 7 # First Sunday of March
+    pfm = 44 - epact if epact < 24 else 74 - epact
+    fsd = (10 + sol - (5 * y) // 4) % 7 if y > 1582 else ((-5 * y) // 4) % 7 # First Sunday of March
     dow = (pfm + 7 - fsd) % 7
     march = pfm + 7 - dow
     april = pfm - 24 - dow
