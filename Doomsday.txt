@@ -1,0 +1,20 @@
+Doomsday for Thai year:
+def doomsday(be):
+	y = be - 543 # Gregorian year from Thai year
+	k = y // 100
+	d = (2 + 5 * (k % 4)) % 7 if y > 1582 else 6 * k % 7
+	t = y % 100
+	a = y // 12
+	b = y % 12
+	c = b // 4
+	return (a + b + c + d) % 7
+	# With Sunday = 0, Monday = 1, TUesday = 2, etc	
+
+Thai day colors in background corresponding to doomsdays:
+Sunday: #FF0000 (RED)
+Monday: #FFFF00 (YELLOW)
+Tuesday: #FF0080 (ROSE)
+Wednesday: #008000 (GREEN)
+Thursday: #FF8000 (SAFFRON)
+Friday: #3399FF (BLUE)
+Saturday: #800080 (VIOLET)

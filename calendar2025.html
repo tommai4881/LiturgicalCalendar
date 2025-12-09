@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liturgical Calendar & Proclamations</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,700;1,400&family=Ysabeau:wght@1..1000&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-red: #DA251D;
+            --color-yellow: #FFFF00;
+            --color-rose: #FF0080;
+            --color-green: #008000;
+            --color-saffron: #FF8000;
+            --color-blue: #3399FF;
+            --color-violet: #800080;
+            --color-black: #000000;
+            --color-white: #ffffff;
+            --bg-off-white: #fcfcfc;
+            --text-main: #2c2c2c;
+        }
+
+        body {
+            font-family: 'EB Garamond', serif;
+            background-color: var(--bg-off-white);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4, .font-heading {
+            font-family: 'Ysabeau', sans-serif;
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Controls Section */
+        .controls {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 5px solid var(--color-red);
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        label {
+            font-family: 'Ysabeau', sans-serif;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        input[type="number"] {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-family: 'Ysabeau', sans-serif;
+            font-size: 1rem;
+            width: 100px;
+        }
+
+        select {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-family: 'Ysabeau', sans-serif;
+            font-size: 1rem;
+        }
+
+        button#generateBtn {
+            background-color: var(--color-red);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'Ysabeau', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: background 0.2s;
+        }
+
+        button#generateBtn:hover {
+            background-color: #b01e17;
+        }
+
+        /* Year Info Section */
+        .year-info {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .info-item {
+            border-left: 3px solid #ddd;
+            padding-left: 10px;
+        }
+        
+        .info-label {
+            font-size: 0.85rem;
+            color: #666;
+            font-family: 'Ysabeau', sans-serif;
+        }
+        
+        .info-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        /* Doomsday Colors */
+        .dd-sunday { color: var(--color-red); }
+        .dd-monday { color: var(--color-yellow); text-shadow: 0 0 1px #999;} 
+        .dd-tuesday { color: var(--color-rose); }
+        .dd-wednesday { color: var(--color-green); }
+        .dd-thursday { color: var(--color-saffron); }
+        .dd-friday { color: var(--color-blue); }
+        .dd-saturday { color: var(--color-violet); }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 0;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            background: #eee;
+            border: none;
+            border-radius: 8px 8px 0 0;
+            cursor: pointer;
+            font-family: 'Ysabeau', sans-serif;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .tab.active {
+            background: white;
+            border-top: 3px solid var(--color-red);
+            color: var(--color-red);
+        }
+
+        .tab-content {
+            background: white;
+            padding: 30px;
+            border-radius: 0 8px 8px 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            min-height: 400px;
+        }
+
+        .hidden { display: none; }
+
+        /* Calendar List Styling */
+        .feast-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .feast-item {
+            display: flex;
+            padding: 10px;
+            border-bottom: 1px solid #f0f0f0;
+            align-items: baseline;
+        }
+
+        .feast-date {
+            width: 150px;
+            font-family: 'Ysabeau', sans-serif;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .feast-name {
+            flex-grow: 1;
+            font-size: 1.1rem;
+        }
+
+        /* Proclamation Text Styling */
+        .proclamation-text {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            white-space: pre-wrap; /* Preserves newlines */
+            text-align: center;
+        }
+        
+        .rubric {
+            color: var(--color-red);
+            font-size: 0.9rem;
+            font-style: italic;
+            display: block;
+            margin: 10px 0;
+        }
+
+        /* Liturgical Colors */
+        .lit-green { color: var(--color-green); }
+        .lit-violet { color: var(--color-violet); }
+        .lit-rose { color: var(--color-rose); }
+        .lit-white { color: #333; background-color: #f8f8f8; border-left: 4px solid #ccc; padding-left: 6px;} /* White is hard to see on white */
+        .lit-red { color: var(--color-red); }
+        .lit-black { color: var(--color-black); }
+        .lit-yellow { color: #d4d400; /* Darker yellow for text readability */ text-shadow: 0 0 1px rgba(0,0,0,0.1); }
+        .lit-blue { color: var(--color-blue); }
+        .lit-red-green { 
+            background: linear-gradient(90deg, var(--color-red) 50%, var(--color-green) 50%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
+        }
+
+        .bg-lit-green { border-left: 5px solid var(--color-green); }
+        .bg-lit-violet { border-left: 5px solid var(--color-violet); }
+        .bg-lit-rose { border-left: 5px solid var(--color-rose); }
+        .bg-lit-white { border-left: 5px solid #ccc; }
+        .bg-lit-red { border-left: 5px solid var(--color-red); }
+        .bg-lit-black { border-left: 5px solid var(--color-black); }
+        .bg-lit-yellow { border-left: 5px solid var(--color-yellow); }
+        .bg-lit-blue { border-left: 5px solid var(--color-blue); }
+
+        @media (max-width: 600px) {
+            .feast-item { flex-direction: column; }
+            .feast-date { margin-bottom: 5px; }
+            .controls { flex-direction: column; align-items: stretch; }
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="controls">
+        <div class="control-group">
+            <label for="yearInput">Year</label>
+            <input type="number" id="yearInput" value="2025" min="1583" max="9999">
+        </div>
+        
+        <div class="control-group">
+            <label for="easterType">Easter Calculation</label>
+            <select id="easterType">
+                <option value="gregorian">Gregorian (Standard)</option>
+                <option value="julian">Julian (Orthodox/Force Julian)</option>
+            </select>
+        </div>
+
+        <div class="control-group">
+            <label for="transfers">Feast Transfers</label>
+            <select id="transfers">
+                <option value="sunday">Transferred to Sunday (Default)</option>
+                <option value="traditional">Traditional Dates (Jan 6, Thu, Thu)</option>
+            </select>
+        </div>
+
+        <button id="generateBtn" onclick="generateCalendar()">Generate Liturgy</button>
+    </div>
+
+    <div id="yearInfoPanel" class="year-info">
+        <!-- JS injected content -->
+    </div>
+
+    <div class="tabs">
+        <button class="tab active" onclick="openTab('calendar')">Calendar & Feasts</button>
+        <button class="tab" onclick="openTab('noveritis')">Noveritis (Epiphany)</button>
+        <button class="tab" onclick="openTab('exsultet')">Exsultet (Easter Vigil)</button>
+        <button class="tab" onclick="openTab('kalenda')">Kalenda (Christmas)</button>
+    </div>
+
+    <div id="calendar" class="tab-content">
+        <ul id="calendarList" class="feast-list"></ul>
+    </div>
+
+    <div id="noveritis" class="tab-content hidden">
+        <div id="noveritisText" class="proclamation-text"></div>
+    </div>
+
+    <div id="exsultet" class="tab-content hidden">
+        <div id="exsultetText" class="proclamation-text"></div>
+    </div>
+
+    <div id="kalenda" class="tab-content hidden">
+        <div id="kalendaText" class="proclamation-text"></div>
+    </div>
+</div>
+
+<script>
+/**
+ * CORE UTILITIES & DATE LOGIC
+ */
+
+const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const WEEKDAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+// Date helper to ensure we don't mess up timezones (working with noon to avoid DST shifts)
+function createDate(year, month, day) {
+    return new Date(year, month - 1, day, 12, 0, 0);
+}
+
+function addDays(date, days) {
+    const result = new Date(date);
+    result.setDate(result.getDate() + days);
+    return result;
+}
+
+function getSundayAfter(date) {
+    const d = new Date(date);
+    const day = d.getDay();
+    const diff = 6 - day + 1; // 0 is Sunday. Logic: if Sunday(0), next is 7 days away? Python logic was: (6 - weekday) -> Python Mon=0, Sun=6. JS Sun=0, Mon=1.
+    // Python: date + timedelta(days = 6 - date.weekday()) 
+    // If date is Sunday (6), add 0. 
+    // JS: If date is Sunday (0). We want next Sunday? Or same if Sunday?
+    // Python `getSunday`: "Sunday following or coinciding".
+    // Python weekday(): Mon=0 ... Sun=6.
+    // JS getDay(): Sun=0 ... Sat=6.
+    
+    // Convert JS day to Python day for equivalence logic
+    let pyDay = d.getDay() === 0 ? 6 : d.getDay() - 1;
+    let daysToAdd = 6 - pyDay;
+    return addDays(d, daysToAdd);
+}
+
+function formatDate(date) {
+    return `${WEEKDAYS[date.getDay()]}, ${MONTHS[date.getMonth()]} ${date.getDate()}`;
+}
+
+function isLeap(year) {
+    return (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0); // Simplified Gregorian
+}
+
+/**
+ * YEAR INFO LOGIC (Ported from YearInfo.py)
+ */
+class YearInfo {
+    constructor(year) {
+        this.year = year;
+    }
+    
+    get indiction() { return (this.year + 2) % 15 + 1; }
+    get goldenNumber() { return (this.year % 19) + 1; }
+    
+    get epact() {
+        let epact1582 = (11 * this.goldenNumber - 10) % 30;
+        let epact;
+        if (this.year > 1582) {
+            let century = Math.floor(this.year / 100) + 1;
+            let solar = Math.floor((3 * century) / 4) - 12;
+            let lunar = Math.floor((8 * century + 5) / 25) - 5;
+            epact = (epact1582 - solar + lunar) % 30;
+        } else {
+            epact = (epact1582 + 7) % 30;
+        }
+        if (epact < 0) epact += 30;
+        return epact;
+    }
+
+    get epactString() {
+        const roman = {
+            1: "I", 2: "II", 3: "III", 4: "IV", 5: "V", 6: "VI", 7: "VII", 8: "VIII", 9: "IX", 10: "X",
+            11: "XI", 12: "XII", 13: "XIII", 14: "XIV", 15: "XV", 16: "XVI", 17: "XVII", 18: "XVIII", 19: "XIX", 20: "XX",
+            21: "XXI", 22: "XXII", 23: "XXIII", 24: "XXIV", 25: "XXV", 26: "XXVI", 27: "XXVII", 28: "XXVIII", 29: "XXIX", 30: "XXX"
+        };
+        if (this.epact === 0) return "*";
+        if (this.epact === 25 && this.goldenNumber > 11) return "25";
+        return roman[this.epact];
+    }
+
+    get martyrology() {
+        const letters = ["P", "a", "b", "c", "d", "e", "f", "g", "h", "i", "k", "l", "m", "n", "p", "q", "r", "s", "t", "u", "A", "B", "C", "D", "E", "F", "G", "H", "M", "N"];
+        return letters[this.epact];
+    }
+
+    get doomsday() {
+        // Conway's algorithm
+        let k = Math.floor(this.year / 100);
+        let d;
+        if (this.year > 1582) {
+             d = (5 * (k % 4) + 2) % 7; 
+        } else {
+            d = (6 * k) % 7;
+        }
+        let t = this.year % 100;
+        let a = Math.floor(t / 12);
+        let b = t % 12;
+        let c = Math.floor(b / 4);
+        return (a + b + c + d) % 7; // 0=Sun, 1=Mon...
+    }
+
+    get doomsdayString() {
+        return WEEKDAYS[this.doomsday];
+    }
+
+    get dominicalLetter() {
+        const letters = ["C", "B", "A", "G", "F", "E", "D"]; // Index 0=Sunday
+        const leapLetters = ["DC", "CB", "BA", "AG", "GF", "FE", "ED"];
+        
+        if (isLeap(this.year)) {
+            return leapLetters[this.doomsday];
+        } else if (this.year === 1582) {
+            return "GC"; 
+        } else {
+            return letters[this.doomsday];
+        }
+    }
+}
+
+/**
+ * EASTER CALCULATION (Ported from easter.py)
+ */
+function calculateEaster(year, isGregorian) {
+    let a = year % 19;
+    let b = year % 4;
+    let c = year % 7;
+    let k = Math.floor(year / 100);
+    let p = Math.floor((13 + 8 * k) / 25);
+    let q = Math.floor(k / 4);
+    let m = (isGregorian && year > 1582) ? (15 + k - p - q) % 30 : 15;
+    let n = (isGregorian && year > 1582) ? (4 + k - q) % 7 : 6;
+    let d = (19 * a + m) % 30;
+    let e = (2 * b + 4 * c + 6 * d + n) % 7;
+    
+    if (d === 29 || (d === 28 && a > 10)) {
+        d -= 1;
+    }
+    
+    let march = 22 + d + e;
+    let april = d + e - 9;
+    
+    let nominalDate;
+    if (march > 31) {
+        nominalDate = createDate(year, 4, april);
+    } else {
+        nominalDate = createDate(year, 3, march);
+    }
+
+    // Julian Calendar Correction if needed for dates after 1582 displayed on Gregorian calendar
+    if (!isGregorian && year > 1582) {
+        let correction = Math.floor(year / 100) - Math.floor(year / 400) - 2;
+        return addDays(nominalDate, correction);
+    }
+    return nominalDate;
+}
+
+/**
+ * LITURGICAL LOGIC
+ */
+
+function generateLiturgicalCalendar(year, isGregorianEaster, useTraditionalDates) {
+    let events = [];
+    const easterDate = calculateEaster(year, isGregorianEaster);
+    const yInfo = new YearInfo(year);
+
+    // Color definitions
+    const C = {
+        RED: 'lit-red',
+        YELLOW: 'lit-yellow',
+        ROSE: 'lit-rose',
+        GREEN: 'lit-green',
+        VIOLET: 'lit-violet',
+        WHITE: 'lit-white',
+        BLACK: 'lit-black',
+        BLUE: 'lit-blue',
+        RED_GREEN: 'lit-red-green'
+    };
+
+    // --- ADVENT & CHRISTMAS (Previous Year context handled by 'advent.py' for current year display) ---
+    // The requirement asks for "Full year info". Advent is at end of year.
+    // LENT is at start.
+    
+    // 1. CHRISTMASTIDE (Beginning of Civil Year)
+    // Mary Mother of God
+    events.push({ date: createDate(year, 1, 1), name: "Solemnity of Mary, Mother of God", color: C.BLUE });
+    
+    // Epiphany
+    let epiphanyDate;
+    if (useTraditionalDates) {
+        epiphanyDate = createDate(year, 1, 6);
+    } else {
+        // Sunday between Jan 2 and Jan 8
+        const jan2 = createDate(year, 1, 2);
+        epiphanyDate = getSundayAfter(jan2);
+        if (epiphanyDate.getFullYear() > year) epiphanyDate = jan2; // Safety, though unlikely with logic
+        // Python logic: getSunday(date(year, 1, 2))
+    }
+    events.push({ date: epiphanyDate, name: "The Epiphany of the Lord", color: C.WHITE });
+
+    // Baptism of the Lord
+    let baptismDate;
+    if (useTraditionalDates) {
+        // Sunday after Jan 6
+        baptismDate = getSundayAfter(createDate(year, 1, 7)); // Python logic: if jan6, then sunday after is >= jan 7
+    } else {
+        // If Epiphany is Jan 7 or 8, Baptism is Monday Jan 8 or 9
+        if (epiphanyDate.getDate() === 7) baptismDate = createDate(year, 1, 8);
+        else if (epiphanyDate.getDate() === 8) baptismDate = createDate(year, 1, 9);
+        else baptismDate = addDays(epiphanyDate, 7);
+    }
+    events.push({ date: baptismDate, name: "The Baptism of the Lord", color: C.WHITE });
+
+    // --- LENT ---
+    const ashWed = addDays(easterDate, -46);
+    events.push({ date: ashWed, name: "Ash Wednesday", color: C.VIOLET });
+    
+    // Sundays of Lent
+    events.push({ date: addDays(easterDate, -42), name: "1st Sunday of Lent (Invocabit)", color: C.VIOLET });
+    events.push({ date: addDays(easterDate, -35), name: "2nd Sunday of Lent (Reminiscere)", color: C.VIOLET });
+    events.push({ date: addDays(easterDate, -28), name: "3rd Sunday of Lent (Oculi)", color: C.VIOLET });
+    events.push({ date: addDays(easterDate, -21), name: "4th Sunday of Lent (Laetare)", color: C.ROSE });
+    events.push({ date: addDays(easterDate, -14), name: "5th Sunday of Lent (Judica)", color: C.VIOLET });
+    
+    // Holy Week
+    events.push({ date: addDays(easterDate, -7), name: "Palm Sunday of the Passion of the Lord", color: C.RED });
+    events.push({ date: addDays(easterDate, -3), name: "Maundy Thursday", color: C.WHITE });
+    events.push({ date: addDays(easterDate, -2), name: "Good Friday", color: C.RED });
+    events.push({ date: addDays(easterDate, -1), name: "Holy Saturday", color: C.BLACK });
+    
+    // --- EASTERTIDE ---
+    events.push({ date: easterDate, name: "Easter Sunday of the Resurrection of the Lord", color: C.YELLOW });
+    events.push({ date: addDays(easterDate, 7), name: "2nd Sunday of Easter (Divine Mercy)", color: C.YELLOW });
+    events.push({ date: addDays(easterDate, 14), name: "3rd Sunday of Easter", color: C.WHITE });
+    events.push({ date: addDays(easterDate, 21), name: "4th Sunday of Easter (Good Shepherd)", color: C.WHITE });
+    events.push({ date: addDays(easterDate, 28), name: "5th Sunday of Easter", color: C.WHITE });
+    events.push({ date: addDays(easterDate, 35), name: "6th Sunday of Easter", color: C.WHITE });
+
+    // Ascension
+    let ascensionDate;
+    if (useTraditionalDates) {
+        ascensionDate = addDays(easterDate, 39); // Thursday
+    } else {
+        ascensionDate = addDays(easterDate, 42); // Sunday
+    }
+    events.push({ date: ascensionDate, name: "The Ascension of the Lord", color: C.WHITE });
+
+    // 7th Sunday (only if Ascension is Thursday)
+    if (useTraditionalDates) {
+        events.push({ date: addDays(easterDate, 42), name: "7th Sunday of Easter", color: C.WHITE });
+    }
+
+    const pentecost = addDays(easterDate, 49);
+    events.push({ date: pentecost, name: "Pentecost Sunday", color: C.RED });
+
+    // --- SOLEMNITIES OF THE LORD (Post-Pentecost) ---
+    const trinity = addDays(easterDate, 56);
+    events.push({ date: trinity, name: "The Most Holy Trinity", color: C.WHITE });
+
+    let corpusChristi;
+    if (useTraditionalDates) {
+        corpusChristi = addDays(easterDate, 60); // Thursday
+    } else {
+        corpusChristi = addDays(easterDate, 63); // Sunday
+    }
+    events.push({ date: corpusChristi, name: "The Most Holy Body and Blood of Christ (Corpus Christi)", color: C.WHITE });
+
+    const sacredHeart = addDays(easterDate, 68); // Friday after 2nd Sunday after Pentecost
+    events.push({ date: sacredHeart, name: "The Most Sacred Heart of Jesus", color: C.WHITE });
+
+    // --- FIXED FEASTS MOVING RULES ---
+    
+    // St Joseph (March 19)
+    let joseph = createDate(year, 3, 19);
+    if (joseph.getDay() === 0 && (joseph < addDays(easterDate, -7))) {
+        // Sunday in Lent (not Palm Sunday) -> Move to Monday
+        joseph = addDays(joseph, 1);
+    } else if (joseph >= addDays(easterDate, -7) && joseph <= addDays(easterDate, 1)) {
+        // Holy Week -> Saturday before Palm Sunday
+        joseph = addDays(easterDate, -8);
+    }
+    events.push({ date: joseph, name: "Saint Joseph, Spouse of the Blessed Virgin Mary", color: C.WHITE });
+
+    // Annunciation (March 25)
+    let annunc = createDate(year, 3, 25);
+    if (annunc.getDay() === 0 && (annunc < addDays(easterDate, -7))) {
+        annunc = addDays(annunc, 1);
+    } else if (annunc >= addDays(easterDate, -7) && annunc <= addDays(easterDate, 7)) {
+        // Holy Week or Easter Octave -> Monday after Divine Mercy
+        annunc = addDays(easterDate, 8);
+    }
+    events.push({ date: annunc, name: "The Annunciation of the Lord", color: C.BLUE }); // Using Blue for Mary per prompt
+
+    // --- ADVENT (Current Year) ---
+    // First Sunday of Advent: Sunday closest to Nov 30? No, 4th Sunday before Christmas.
+    // Logic: Sunday after Nov 26.
+    const advent1 = getSundayAfter(createDate(year, 11, 27)); // Nov 27
+    events.push({ date: advent1, name: "1st Sunday of Advent", color: C.VIOLET });
+    events.push({ date: addDays(advent1, 7), name: "2nd Sunday of Advent", color: C.VIOLET });
+    events.push({ date: addDays(advent1, 14), name: "3rd Sunday of Advent (Gaudete)", color: C.ROSE });
+    events.push({ date: addDays(advent1, 21), name: "4th Sunday of Advent", color: C.VIOLET });
+
+    // Immaculate Conception (Dec 8)
+    let immac = createDate(year, 12, 8);
+    if (immac.getDay() === 0) immac = addDays(immac, 1);
+    events.push({ date: immac, name: "The Immaculate Conception of the Blessed Virgin Mary", color: C.BLUE });
+
+    // Christmas
+    events.push({ date: createDate(year, 12, 25), name: "The Nativity of the Lord (Christmas)", color: C.RED_GREEN });
+    
+    // Holy Family
+    let holyFamily;
+    const xmas = createDate(year, 12, 25);
+    if (xmas.getDay() === 0) {
+        holyFamily = createDate(year, 12, 30); // Friday if Xmas is Sunday
+    } else {
+        holyFamily = getSundayAfter(createDate(year, 12, 26));
+    }
+    events.push({ date: holyFamily, name: "The Holy Family of Jesus, Mary and Joseph", color: C.RED_GREEN });
+
+    // --- ORDINARY TIME SUNDAYS ---
+    // Start after Baptism until Ash Wednesday
+    // Start after Pentecost until Advent
+    
+    // Pre-Lent
+    let currentOT = addDays(baptismDate, (baptismDate.getDay() === 0 ? 7 : (7 - baptismDate.getDay()))); // First Sunday after Baptism? 
+    // Logic from python: Week 1 is Sunday after Baptism? Actually python says: Sunday(week). 
+    // We just fill Sundays between Baptism and Ash Wednesday.
+    let otCounter = 2; // Baptism is usually Feast of Baptism, Ordinary Time starts Monday, so next Sunday is 2nd Sunday.
+    // Actually, Baptism takes place of 1st Sunday.
+    let scanDate = addDays(baptismDate, (baptismDate.getDay() === 0 ? 7 : (7 - baptismDate.getDay() + 0))); // Next Sunday
+    if (baptismDate.getDay() !== 0) { 
+        // If Baptism is Monday (Jan 8/9), the *preceding* Sunday was Epiphany. The week following is Week 1 OT. 
+        // The *next* Sunday is 2nd Sunday.
+        scanDate = getSundayAfter(addDays(baptismDate, 1));
+    } else {
+        scanDate = addDays(baptismDate, 7);
+    }
+
+    while (scanDate < ashWed) {
+        events.push({ date: scanDate, name: `${otCounter}nd Sunday in Ordinary Time`, color: C.GREEN });
+        otCounter++;
+        scanDate = addDays(scanDate, 7);
+    }
+
+    // Post-Pentecost
+    // Resume OT. Trinity is Sunday after Pentecost. Corpus Christi next. 
+    // OT resumes on the Sunday after Pentecost? No, Trinity replaces it.
+    // We calculate the OT week number based on date.
+    // Python bound logic: 6 + (day - 20) // 7.
+    // Simplified: Find number of weeks from start of year or reverse from Christ King.
+    // Christ King is last Sunday (34th).
+    const christKing = addDays(advent1, -7);
+    events.push({ date: christKing, name: "Our Lord Jesus Christ, King of the Universe", color: C.WHITE });
+    
+    let otWeek = 33;
+    let backScan = addDays(christKing, -7);
+    
+    // We generate backwards from Christ King until we hit Pentecost/Corpus/Trinity
+    const stopDate = (useTraditionalDates) ? corpusChristi : corpusChristi; // If Sunday, Corpus is last feast.
+    // Wait, Trinity is always Sunday. Corpus might be Sunday.
+    const cutoff = (corpusChristi.getDay() === 0) ? corpusChristi : trinity;
+
+    while (backScan > cutoff) {
+        events.push({ date: backScan, name: `${otWeek}rd Sunday in Ordinary Time`, color: C.GREEN }); // Suffix handling needed strictly?
+        otWeek--;
+        backScan = addDays(backScan, -7);
+    }
+    
+    // Fix suffixes for OT
+    events.forEach(e => {
+        if (e.name.includes("nd Sunday")) {
+             let num = parseInt(e.name);
+             let suffix = "th";
+             if (num % 10 === 1 && num !== 11) suffix = "st";
+             else if (num % 10 === 2 && num !== 12) suffix = "nd";
+             else if (num % 10 === 3 && num !== 13) suffix = "rd";
+             e.name = e.name.replace("nd Sunday", `${suffix} Sunday`);
+        }
+        if (e.name.includes("rd Sunday")) {
+             let num = parseInt(e.name);
+             let suffix = "th";
+             if (num % 10 === 1 && num !== 11) suffix = "st";
+             else if (num % 10 === 2 && num !== 12) suffix = "nd";
+             else if (num % 10 === 3 && num !== 13) suffix = "rd";
+             e.name = e.name.replace("rd Sunday", `${suffix} Sunday`);
+        }
+    });
+
+    // --- OTHER FEASTS (Fixed) ---
+    // Add specific requested fixed dates if they don't conflict (simplified list)
+    const fixedFeasts = [
+        {m:2, d:2, n: "The Presentation of the Lord", c: C.WHITE},
+        {m:3, d:25, n: "The Annunciation", c: C.BLUE}, // Handled dynamically above
+        {m:6, d:24, n: "The Nativity of Saint John the Baptist", c: C.WHITE},
+        {m:6, d:29, n: "Saints Peter and Paul, Apostles", c: C.RED},
+        {m:8, d:6, n: "The Transfiguration of the Lord", c: C.WHITE},
+        {m:8, d:15, n: "The Assumption of the Blessed Virgin Mary", c: C.BLUE},
+        {m:9, d:14, n: "The Exaltation of the Holy Cross", c: C.RED},
+        {m:11, d:1, n: "All Saints", c: C.WHITE},
+        {m:11, d:2, n: "The Commemoration of All the Faithful Departed (All Souls)", c: C.VIOLET},
+        {m:12, d:26, n: "Saint Stephen, The First Martyr", c: C.RED},
+        {m:12, d:27, n: "Saint John, Apostle and Evangelist", c: C.WHITE},
+        {m:12, d:28, n: "The Holy Innocents, Martyrs", c: C.RED}, // Red-Green logic mentioned? "Christmas Octave (except 26-28...)"
+    ];
+
+    // Merge Fixed Feasts
+    fixedFeasts.forEach(f => {
+        // Check conflicts? Simple override logic: Moving feasts usually trump fixed unless fixed is Solemnity of Lord.
+        // For this view, we just add them. If duplicate date with moving feast, moving feast usually takes visual precedence in list.
+        // Exception: We already added Annunciation/Joseph dynamically. Don't add again.
+        if (f.n.includes("Annunciation") || f.n.includes("Joseph")) return;
+
+        let d = createDate(year, f.m, f.d);
+        // Check if date already exists in events
+        let exists = events.find(e => e.date.getTime() === d.getTime());
+        if (!exists) {
+            events.push({date: d, name: f.n, color: f.c});
+        } else {
+            // Coincidence. Usually Moving Feast > Fixed. 
+            // Append name?
+            exists.name += ` / ${f.n}`;
+        }
+    });
+
+    // Doomsdays Logic (Add to events list for specific coloring?)
+    // Prompt: "List of feast days as well as ALL Sundays". 
+    // We have Sundays. 
+    // Add Doomsday? The "Doomsday" is a day of the week.
+    // The prompt asks for "With full year info as well as doomsdays". This likely means listing the dates that satisfy the Doomsday rule (4/4, 6/6, 8/8 etc) or just the info.
+    // I will add the specific Doomsday Dates as events.
+    const doomsdays = [
+        {m:1, d: (isLeap(year)?4:3)}, // Jan 3/4
+        {m:2, d: (isLeap(year)?29:28)}, // Last day Feb
+        {m:3, d: 14}, // Pi day
+        {m:4, d: 4},
+        {m:5, d: 9},
+        {m:6, d: 6},
+        {m:7, d: 11},
+        {m:8, d: 8},
+        {m:9, d: 5},
+        {m:10, d: 10},
+        {m:11, d: 7},
+        {m:12, d: 12},
+    ];
+    
+    // Get Doomsday Color
+    const ddDow = yInfo.doomsday;
+    const ddColors = [C.RED, C.YELLOW, C.ROSE, C.GREEN, C.RED, C.BLUE, C.VIOLET]; // Saffron for Thurs?
+    // Prompt map: Sun-Red, Mon-Yellow, Tue-Rose, Wed-Green, Thu-Saffron, Fri-Blue, Sat-Violet.
+    const ddColorMap = [C.RED, C.YELLOW, C.ROSE, C.GREEN, 'dd-thursday', C.BLUE, C.VIOLET]; 
+    // Using custom class for Saffron
+
+    doomsdays.forEach(dd => {
+        let d = createDate(year, dd.m, dd.d);
+        let exists = events.find(e => e.date.getTime() === d.getTime());
+        let ddName = `Doomsday (${d.getDate()}/${d.getMonth()+1})`;
+        // We only add if user wants to see them mixed in, or just highlighting.
+        // Prompt says "With full year info as well as doomsdays". I'll put it in the Year Info panel, not clutter the feast list unless specifically a feast.
+    });
+
+    // Sort events
+    events.sort((a, b) => a.date - b.date);
+
+    return { events, info: yInfo, importantDates: { ashWed, easterDate, ascensionDate, pentecost, corpusChristi, advent1 } };
+}
+
+/**
+ * TEXT GENERATION
+ */
+function generateTexts(year, dates, yInfo) {
+    // NOVERITIS
+    const n = `
+<span class="rubric">The Announcement of Easter and the Moveable Feasts (Noveritis)</span>
+<span class="rubric">Chanted by the Deacon after the Gospel on the Epiphany of the Lord.</span>
+
+KNOW, dear brothers and sisters,
+that, as we have rejoiced at the Nativity of our Lord Jesus Christ,
+so by leave of God's mercy
+we announce to you also the joy of His Resurrection,
+who is our Savior.
+
+On <b>${MONTHS[dates.ashWed.getMonth()]} ${dates.ashWed.getDate()}</b> will fall Ash Wednesday,
+and the beginning of the Season of Lent.
+
+On <b>${MONTHS[dates.easterDate.getMonth()]} ${dates.easterDate.getDate()}</b> you will celebrate with joy Easter Day,
+the Paschal feast of our Lord Jesus Christ.
+
+On <b>${MONTHS[dates.ascensionDate.getMonth()]} ${dates.ascensionDate.getDate()}</b> will be the Ascension of our Lord Jesus Christ.
+
+On <b>${MONTHS[dates.pentecost.getMonth()]} ${dates.pentecost.getDate()}</b>, the feast of Pentecost.
+
+On <b>${MONTHS[dates.corpusChristi.getMonth()]} ${dates.corpusChristi.getDate()}</b>, the Feast of the Most Holy Body and Blood of Christ.
+
+On <b>${MONTHS[dates.advent1.getMonth()]} ${dates.advent1.getDate()}</b>, the First Sunday of the Advent of our Lord Jesus Christ,
+
+to Whom is honor and glory forever and ever. Amen.
+    `;
+
+    // KALENDA
+    // Calculate Moon Age for Dec 25
+    // Epact logic from Kalenda.py
+    let epact = yInfo.epact;
+    // Kalenda.py: moon = (epact + 4) % 30 + 1. If epact 25 and GN > 11, moon -=1.
+    let moon = (epact + 4) % 30 + 1;
+    if (epact === 25 && yInfo.goldenNumber > 11) moon -= 1;
+    
+    const ordinals = ["", "first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth", 
+        "eleventh", "twelfth", "thirteenth", "fourteenth", "fifteenth", "sixteenth", "seventeenth", "eighteenth", "nineteenth", "twentieth",
+        "twenty-first", "twenty-second", "twenty-third", "twenty-fourth", "twenty-fifth", "twenty-sixth", "twenty-seventh", "twenty-eighth", "twenty-ninth", "thirtieth"];
+    
+    const k = `
+<span class="rubric">The Proclamation of the Birth of Christ (Kalenda)</span>
+<span class="rubric">Read or chanted before the Midnight Mass of Christmas.</span>
+
+THE Eighth Kalends of January, the <b>${ordinals[moon]}</b> day of the moon.
+
+In the year 5199 since the world was created,
+when ages beyond number had run their course from the creation of the world,
+when God in the beginning created heaven and earth,
+and formed man in His own likeness;
+
+2957 years after the Flood,
+when century upon century had passed
+since the Almighty set His bow in the clouds after the Great Flood,
+as a sign of covenant and peace;
+
+2015 years since Abraham's birth;
+In the twenty-first century since Abraham, our father in faith,
+came out of Ur of the Chaldees;
+
+1510 years since the People of Israel
+were led by Moses in the Exodus from Egypt;
+
+1032 years since David was anointed king of Israel;
+
+In the 65th week of the prophecy of Daniel;
+
+In the 194th Olympiad;
+
+In the year 752 since the founding of Rome;
+
+and in the 42nd year of the rule of Caesar Octavian Augustus,
+the whole world being at peace,
+
+<span class="lit-red font-heading" style="display:block; margin: 20px 0; font-size: 1.5em; font-weight: bold;">JESUS CHRIST, eternal God and Son of the eternal Father,</span>
+
+desiring to consecrate the world by His most loving presence,
+was conceived by the Holy Spirit,
+and when nine months had passed since His conception,
+was born of the Virgin Mary in Bethlehem of Judah, and was made man:
+
+<span class="lit-red font-heading" style="display:block; margin: 20px 0; font-size: 1.5em; font-weight: bold;">THE NATIVITY OF OUR LORD JESUS CHRIST ACCORDING TO THE FLESH.</span>
+    `;
+
+    // EXSULTET (Static text mostly, ported from python)
+    const e = `
+<span class="rubric">The Easter Proclamation (Exsultet)</span>
+<span class="rubric">Sung by the Deacon at the Easter Vigil.</span>
+
+EXULT, let them exult, the hosts of heaven,
+exult, let Angel ministers of God exult,
+let the trumpet of salvation
+sound aloud our mighty King's triumph!
+
+Be glad, let earth be glad, as glory floods her,
+ablaze with light from her eternal King,
+let all corners of the earth be glad,
+knowing an end to gloom and darkness.
+
+Rejoice, let Mother Church also rejoice,
+arrayed with the lightning of His glory,
+let this holy building shake with joy,
+filled with the mighty voices of the peoples.
+
+<span class="rubric">(The Deacon invites the people to pray)</span>
+
+Therefore, dearest friends,
+standing in the awesome glory of this holy light,
+invoke with me, I ask you,
+the mercy of God almighty,
+that He, who has been pleased to number me,
+though unworthy, among the Levites,
+may pour into me His light unshadowed,
+that I may sing this candle's perfect praises.
+
+V. The Lord be with you.
+R. And with your spirit.
+V. Lift up your hearts.
+R. We lift them up to the Lord.
+V. Let us give thanks to the Lord our God.
+R. It is right and just.
+
+It is truly right and just,
+with ardent love of mind and heart
+and with devoted service of our voice,
+to acclaim our God invisible, the almighty Father,
+and Jesus Christ, our Lord, His Son, His Only Begotten.
+
+Who for our sake paid Adam's debt to the eternal Father,
+and, pouring out His own dear Blood,
+wiped clean the record of our ancient sinfulness.
+
+These, then, are the feasts of Passover,
+in which is slain the Lamb, the one true Lamb,
+whose Blood anoints the doorposts of believers.
+
+This is the night,
+when once You led our forebears, Israel's children,
+from slavery in Egypt
+and made them pass dry-shod through the Red Sea.
+
+This is the night
+that with a pillar of fire
+banished the darkness of sin.
+
+This is the night
+that even now throughout the world,
+sets Christian believers apart from worldly vices
+and from the gloom of sin,
+leading them to grace
+and joining them to His holy ones.
+
+This is the night
+when Christ broke the prison-bars of death
+and rose victorious from the underworld.
+
+Our birth would have been no gain,
+had we not been redeemed.
+O wonder of Your humble care for us!
+O love, O charity beyond all telling,
+to ransom a slave You gave away Your Son!
+
+O truly necessary sin of Adam,
+destroyed completely by the Death of Christ!
+
+O happy fault
+that earned for us so great, so glorious a Redeemer!
+
+O truly blessed night,
+worthy alone to know the time and hour
+when Christ rose from the underworld!
+
+This is the night
+of which it is written:
+The night shall be as bright as day,
+dazzling is the night for me, and full of gladness.
+
+The sanctifying power of this night
+dispels wickedness, washes faults away,
+restores innocence to the fallen, and joy to mourners,
+drives out hatred, fosters concord, and brings down the mighty.
+
+On this, Your night of grace, O holy Father,
+accept this candle, a solemn offering,
+the work of bees and of Your servants' hands,
+an evening sacrifice of praise,
+this gift from Your most holy Church.
+
+But now we know the praises of this pillar,
+which glowing fire ignites for God's honor,
+a fire into many flames divided,
+yet never dimmed by sharing of its light,
+for it is fed by melting wax,
+drawn out by mother bees
+to build a torch so precious.
+
+O truly blessed night,
+when things of heaven are wed to those of earth,
+and divine to the human.
+
+Therefore, O Lord,
+we pray You that this candle,
+hallowed to the honour of Your name,
+may persevere undimmed,
+to overcome the darkness of this night.
+Receive it as a pleasing fragrance,
+and let it mingle with the lights of heaven.
+May this flame be found still burning
+by the Morning Star:
+the one Morning Star who never sets,
+Christ Your Son,
+who, coming back from death's domain,
+has shed His peaceful light on humanity,
+and lives and reigns for ever and ever. Amen.
+    `;
+
+    return { n, k, e };
+}
+
+/**
+ * UI INTERACTION
+ */
+function openTab(tabId) {
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+    document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+    
+    document.getElementById(tabId).classList.remove('hidden');
+    // Find the button that calls this
+    const btns = document.querySelectorAll('.tab');
+    if(tabId === 'calendar') btns[0].classList.add('active');
+    if(tabId === 'noveritis') btns[1].classList.add('active');
+    if(tabId === 'exsultet') btns[2].classList.add('active');
+    if(tabId === 'kalenda') btns[3].classList.add('active');
+}
+
+function generateCalendar() {
+    const year = parseInt(document.getElementById('yearInput').value);
+    const easterType = document.getElementById('easterType').value;
+    const transferType = document.getElementById('transfers').value;
+    
+    const isGregorian = (easterType === 'gregorian');
+    const useTraditional = (transferType === 'traditional');
+
+    // 1. Calculations
+    const data = generateLiturgicalCalendar(year, isGregorian, useTraditional);
+    
+    // 2. Year Info Display
+    const y = data.info;
+    const zodiacAnimals = ["Monkey", "Rooster", "Dog", "Pig", "Rat", "Ox", "Tiger", "Rabbit", "Dragon", "Snake", "Horse", "Sheep"];
+    const zodiacElements = ["Metal", "Water", "Wood", "Fire", "Earth"];
+    const animal = zodiacAnimals[year % 12];
+    const element = zodiacElements[Math.floor(year / 2) % 5];
+    
+    // Doomsday Color Logic for Info Panel
+    const ddColors = ['dd-sunday', 'dd-monday', 'dd-tuesday', 'dd-wednesday', 'dd-thursday', 'dd-friday', 'dd-saturday'];
+    const ddColorClass = ddColors[y.doomsday];
+
+    const infoPanel = document.getElementById('yearInfoPanel');
+    infoPanel.innerHTML = `
+        <div class="info-item"><div class="info-label">Indiction</div><div class="info-value">${y.indiction}</div></div>
+        <div class="info-item"><div class="info-label">Golden Number</div><div class="info-value">${y.goldenNumber}</div></div>
+        <div class="info-item"><div class="info-label">Epact</div><div class="info-value">${y.epactString}</div></div>
+        <div class="info-item"><div class="info-label">Martyrology Letter</div><div class="info-value">${y.martyrology}</div></div>
+        <div class="info-item"><div class="info-label">Solar Cycle</div><div class="info-value">${(year + 8) % 28 + 1}</div></div>
+        <div class="info-item"><div class="info-label">Dominical Letter</div><div class="info-value">${y.dominicalLetter}</div></div>
+        <div class="info-item"><div class="info-label">Doomsday</div><div class="info-value ${ddColorClass}">${y.doomsdayString}</div></div>
+        <div class="info-item"><div class="info-label">Chinese Zodiac</div><div class="info-value">${element} ${animal}</div></div>
+    `;
+
+    // 3. Calendar List Display
+    const list = document.getElementById('calendarList');
+    list.innerHTML = "";
+    
+    data.events.forEach(evt => {
+        const li = document.createElement('li');
+        li.className = `feast-item bg-${evt.color}`; // Add side border color
+        
+        const dateSpan = document.createElement('span');
+        dateSpan.className = 'feast-date';
+        dateSpan.textContent = formatDate(evt.date);
+        
+        const nameSpan = document.createElement('span');
+        nameSpan.className = `feast-name ${evt.color}`;
+        nameSpan.textContent = evt.name;
+        
+        li.appendChild(dateSpan);
+        li.appendChild(nameSpan);
+        list.appendChild(li);
+    });
+
+    // 4. Proclamations
+    const texts = generateTexts(year, data.importantDates, y);
+    document.getElementById('noveritisText').innerHTML = texts.n;
+    document.getElementById('exsultetText').innerHTML = texts.e;
+    document.getElementById('kalendaText').innerHTML = texts.k;
+}
+
+// Initial Run
+generateCalendar();
+
+</script>
+</body>
+</html>

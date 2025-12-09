@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Lenten Lectionary Essay</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:ital,wght@0,300;0,400;0,700;1,400&display=swap');
+
+        :root {
+            --lent-purple: #4c1a57;
+            --lent-purple-dark: #2e0f35;
+            --lent-rose: #b55b7b;
+            --lent-red: #8a1c1c;
+            --gold: #d4af37;
+            --paper: #f5f0e6;
+        }
+
+        body {
+            background-color: var(--lent-purple-dark);
+            color: var(--paper);
+            font-family: 'Lato', sans-serif;
+            background-image: radial-gradient(circle at 50% 50%, #3e1645 0%, #1a051d 100%);
+            min-height: 100vh;
+        }
+
+        h1, h2, h3, .cinzel {
+            font-family: 'Cinzel', serif;
+        }
+
+        .scroll-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scroll-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .card {
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--gold);
+        }
+        
+        .card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+
+        .liturgy-purple { border-color: #9d4edd; background: rgba(76, 26, 87, 0.6); }
+        .liturgy-rose { border-color: #ff99c8; background: rgba(181, 91, 123, 0.6); }
+        .liturgy-red { border-color: #ef233c; background: rgba(138, 28, 28, 0.6); }
+        .liturgy-gold { border-color: #ffd700; background: rgba(212, 175, 55, 0.3); }
+
+        .tab-active {
+            border-bottom: 2px solid var(--gold);
+            color: var(--gold);
+        }
+        
+        /* Form styling for Part 5 */
+        select, input[type="checkbox"] {
+            background-color: rgba(0,0,0,0.3);
+            border: 1px solid var(--gold);
+            color: var(--paper);
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+        }
+        select:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--gold);
+        }
+    </style>
+</head>
+<body class="pb-20">
+
+    <!-- Header -->
+    <header class="text-center pt-10 pb-6 px-4">
+        <div class="mb-4">
+            <i class="fas fa-cross text-4xl text-yellow-500 mb-2"></i>
+        </div>
+        <h1 class="text-3xl md:text-5xl font-bold text-yellow-100 mb-2">The Lenten Lectionary</h1>
+        <p class="text-purple-200 italic max-w-2xl mx-auto">"A day-by-day essay through the desert."</p>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 bg-opacity-95 backdrop-blur-md bg-[#2e0f35] border-b border-purple-800 shadow-lg overflow-x-auto scroll-hide">
+        <div class="max-w-6xl mx-auto flex justify-between md:justify-center md:gap-4 text-xs md:text-base font-bold min-w-max px-2">
+            <button onclick="setPart(1)" id="btn-part1" class="tab-btn px-3 py-4 hover:text-yellow-200 transition-colors">PART 1<span class="block text-[10px] md:text-xs font-normal opacity-70">Fasting Adventure</span></button>
+            <button onclick="setPart(2)" id="btn-part2" class="tab-btn px-3 py-4 hover:text-yellow-200 transition-colors">PART 2<span class="block text-[10px] md:text-xs font-normal opacity-70">Johannine Stories</span></button>
+            <button onclick="setPart(3)" id="btn-part3" class="tab-btn px-3 py-4 hover:text-yellow-200 transition-colors">PART 3<span class="block text-[10px] md:text-xs font-normal opacity-70">Holy Week</span></button>
+            <button onclick="setPart(4)" id="btn-part4" class="tab-btn px-3 py-4 hover:text-yellow-200 transition-colors">PART 4<span class="block text-[10px] md:text-xs font-normal opacity-70">Feast Days</span></button>
+            <button onclick="setPart(5)" id="btn-part5" class="tab-btn px-3 py-4 hover:text-yellow-200 transition-colors text-yellow-100">PART 5<span class="block text-[10px] md:text-xs font-normal opacity-70">Interactive Calendar</span></button>
+            <button onclick="setPart(6)" id="btn-part6" class="tab-btn px-3 py-4 hover:text-yellow-200 transition-colors text-yellow-100">PART 6<span class="block text-[10px] md:text-xs font-normal opacity-70">Easter Vigil</span></button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main id="content-area" class="max-w-3xl mx-auto mt-8 px-4 space-y-6">
+        <!-- Javascript will inject content here -->
+    </main>
+
+    <!-- Footer Note -->
+    <footer class="max-w-3xl mx-auto mt-12 p-6 bg-black bg-opacity-30 rounded-lg text-sm text-purple-200 leading-relaxed border border-purple-800 mb-12">
+        <h3 class="font-bold text-yellow-500 mb-4 cinzel text-lg border-b border-purple-800 pb-2">Note on the Lectionary</h3>
+        
+        <div class="space-y-4 text-justify">
+            <h4 class="font-bold text-yellow-500/80 mt-4 uppercase text-xs tracking-wider">Lenten Weekdays</h4>
+            <p>"The readings from the Gospels and the Old Testament were selected because they are related to each other. They treat various themes of the Lenten catechesis that are suited to the spiritual significance of this season."</p>
+            
+            <p>Beginning with Monday of the Fourth Week of Lent, there is a semicontinuous reading of the Gospel of John, made up of texts that correspond more closely to the themes proper to Lent.</p>
+            <p class="text-xs text-gray-500 italic text-right mb-4">(Lectionary for Mass, "Introduction," chap. 5, par. 98)</p>
+
+            <h4 class="font-bold text-yellow-500/80 mt-4 uppercase text-xs tracking-wider">The Sunday Gospels</h4>
+            <p>The Gospel readings are arranged as follows:</p>
+            <ul class="list-disc pl-5 space-y-2 text-gray-300">
+                <li>The first and second Sundays maintain the accounts of the Temptation and Transfiguration of the Lord, with readings, however, from all three Synoptics.</li>
+                <li>On the next three Sundays, the Gospels about the Samaritan woman, the man born blind, and the raising of Lazarus have been restored in Year A. Because these Gospels are of major importance in regard to Christian initiation, they may also be read in Year B and Year C, especially in places where there are catechumens.</li>
+                <li>Other texts, however, are provided for Year B and Year C: for Year B, a text from John about Christ's coming glorification through his Cross and Resurrection, and for Year C, a text from Luke about conversion.</li>
+                <li>On Palm Sunday of the Lord's Passion the texts for the procession are selections from the Synoptic Gospels concerning the Lord's solemn entry into Jerusalem. For the Mass the reading is the account of the Lord's Passion.</li>
+            </ul>
+
+            <h4 class="font-bold text-yellow-500/80 mt-4 uppercase text-xs tracking-wider">Old Testament & Epistles</h4>
+            <p>The Old Testament readings are about the history of salvation, which is one of the themes proper to the catechesis of Lent. The series of texts for each Year presents the main elements of salvation history from its beginning until the promise of the New Covenant.</p>
+            <p>The readings from the Letters of the Apostles have been selected to fit the Gospel and the Old Testament readings and, to the extent possible, to provide a connection between them.</p>
+            <p class="text-xs text-gray-500 italic text-right mb-4">(Lectionary for Mass, "Introduction," chap. 5, par. 97)</p>
+
+            <h4 class="font-bold text-yellow-500/80 mt-4 uppercase text-xs tracking-wider">Holy Week & The Triduum</h4>
+            <p>In the first days of Holy Week the readings are about the mystery of Christ's passion.</p>
+            
+            <p class="font-bold text-yellow-200 mt-2">The Sacred Easter Triduum (excerpt):</p>
+            <ul class="list-disc pl-5 space-y-2 text-gray-300">
+                <li>On Holy Thursday at the evening Mass the remembrance of the meal preceding the Exodus casts its own special light because of the Christ's example in washing the feet of his disciples and Paul's account of the institution of the Christian Passover in the Eucharist.</li>
+                <li>On Good Friday the liturgical service has as its center John's narrative of the Passion of him who was proclaimed in Isaiah as the Servant of the Lord and who became the one High Priest by offering himself to the Father.</li>
+            </ul>
+            <p class="text-xs text-gray-500 italic text-right">(Lectionary for Mass, "Introduction," chap. 5, par. 99. – emphasis added)</p>
+        </div>
+    </footer>
+
+    <!-- Templates & Data -->
+    <script>
+        // Data Structure
+        const lectionaryData = {
+            1: {
+                title: "Part 1: Fasting Adventure",
+                subtitle: "Ash Wednesday to 3rd Week",
+                intro: "The adventure begins. We learn the ground rules of the fast, face temptation in the desert, and witness the glory on the mountain before the scrutiny of our souls begins.",
+                weeks: [
+                    {
+                        name: "Week Zero: The Launch",
+                        days: [
+                            { 
+                                day: "Ash Wednesday", 
+                                reading: "Matthew 6:1-6, 16-18", 
+                                title: "Lent 101: How to Fast and Give Alms Correctly to Please God?", 
+                                color: "liturgy-purple",
+                                reflection: "Jesus sets the syllabus for the season: piety isn't for show. If you fast to be seen, you've already been paid. Do it in secret for the Father." 
+                            },
+                            { 
+                                day: "Thursday post Ash Wed", 
+                                reading: "Luke 9:22-25", 
+                                title: "First Passion Prediction: Jesus Will Suffer, So Will You When You Take the Cross!", 
+                                color: "liturgy-purple",
+                                reflection: "The terms of service are clear: to follow the Messiah means losing your life to save it. There is no resurrection without the Cross."
+                            },
+                            { 
+                                day: "Friday post Ash Wed", 
+                                reading: "Matthew 9:14, 15", 
+                                title: "When You Fast When The Groom Is Taken Away", 
+                                color: "liturgy-purple",
+                                reflection: "We don't fast because food is bad, but because we miss the Bridegroom. Our hunger is a physical sign of a spiritual longing."
+                            },
+                            { 
+                                day: "Saturday post Ash Wed", 
+                                reading: "Luke 5:27-32", 
+                                title: "Jesus Calls Matt: 'I Call Only Sinners to Repent!'", 
+                                color: "liturgy-purple",
+                                reflection: "The Divine Physician opens his clinic. If you think you're healthy, you'll miss the cure. He comes specifically for the sick."
+                            }
+                        ]
+                    },
+                    {
+                        name: "First Week: The Temptation",
+                        days: [
+                            { 
+                                day: "1st SUNDAY", 
+                                reading: "Matt 4:1-11 / Mark 1:12-15 / Luke 4:1-13", 
+                                title: "The Temptation in the Desert", 
+                                color: "liturgy-purple", 
+                                isSunday: true,
+                                reflection: "Jesus enters the wilderness to fight the battle Adam lost. He proves that being God's Son means relying on His Word, not power or spectacle."
+                            },
+                            { 
+                                day: "1st Monday", 
+                                reading: "Matt 25:31-46", 
+                                title: "Last Judgement: Did You Help Jesus? Yes If You Are a Sheep!", 
+                                color: "liturgy-purple",
+                                reflection: "The final exam is revealed early. Salvation is tied to how we treat the 'least of these.' The Goats missed Jesus because they ignored the poor."
+                            },
+                            { 
+                                day: "1st Tuesday", 
+                                reading: "Matt 6:7-15", 
+                                title: "The Lord's Prayer - How to Pray like Jesus", 
+                                color: "liturgy-purple",
+                                reflection: "Jesus teaches the perfect prayer. Before asking for daily bread, we must align our wills with the Kingdom and forgive our debtors."
+                            },
+                            { 
+                                day: "Ember Wednesday", 
+                                reading: "Luke 11:29-32", 
+                                title: "Sign of Jonah: An Easter Sign for the Wicked!", 
+                                color: "liturgy-purple",
+                                reflection: "This generation demands a magic trick, but Jesus offers only the Sign of Jonah: death, three days in the deep, and resurrection."
+                            },
+                            { 
+                                day: "1st Thursday", 
+                                reading: "Matt 7:7-12", 
+                                title: "Pray Sincerely and He Will Provide What You Prayed For!", 
+                                color: "liturgy-purple",
+                                reflection: "Persistence in prayer works because the Father is good. If human fathers know how to give gifts, how much more does God give the Spirit?"
+                            },
+                            { 
+                                day: "Ember Friday", 
+                                reading: "Matt 5:20-26", 
+                                title: "How Jesus' Higher Laws Defies all Murders and Hate", 
+                                color: "liturgy-purple",
+                                reflection: "The standard isn't just 'don't kill.' It's 'don't hate.' Reconciliation with your brother is a prerequisite for worship at the altar."
+                            },
+                            { 
+                                day: "Ember Saturday", 
+                                reading: "Matt 5:43-48", 
+                                title: "Love Everyone Makes Y'all Perfect", 
+                                color: "liturgy-purple",
+                                reflection: "The ultimate Christian distinctiveness: loving enemies. We are called to be 'perfect' like the Father, who sends rain on the just and unjust alike."
+                            }
+                        ]
+                    },
+                    {
+                        name: "Second Week: The Transfiguration",
+                        days: [
+                            { 
+                                day: "2nd SUNDAY", 
+                                reading: "Matt 17:1-9 / Mark 9:2-10 / Luke 9:28b-36", 
+                                title: "The Transfiguration", 
+                                color: "liturgy-purple", 
+                                isSunday: true,
+                                reflection: "A glimpse of Easter glory is given to sustain the disciples through the coming scandal of the Cross. Listen to Him!"
+                            },
+                            { 
+                                day: "2nd Monday", 
+                                reading: "Luke 6:36-38", 
+                                title: "Stop Judging, Dude!", 
+                                color: "liturgy-purple",
+                                reflection: "Mercy is a boomerang. The measure you use to judge others will be the exact measure God uses on you. Forgive, and you will be forgiven."
+                            },
+                            { 
+                                day: "2nd Tuesday", 
+                                reading: "Matt 23:1-12", 
+                                title: "How Not to Be a Hypocrite", 
+                                color: "liturgy-purple",
+                                reflection: "The Pharisees sit on Moses' seat but don't walk the walk. True leadership in the Kingdom is service, not heavy burdens and fancy robes."
+                            },
+                            { 
+                                day: "2nd Wednesday", 
+                                reading: "Matt 20:17-28", 
+                                title: "Third Passion Prediction: 'I Ain't Come to Be Served but to Serve!'", 
+                                color: "liturgy-purple",
+                                reflection: "While the disciples jockey for political power, Jesus announces his death. The cup of the Kingdom is a cup of suffering/service."
+                            },
+                            { 
+                                day: "2nd Thursday", 
+                                reading: "Luke 16:19-31", 
+                                title: "When Lazarus the Beggar Was Brought to Abe's Bosom While the Rich Man in Hell!", 
+                                color: "liturgy-purple",
+                                reflection: "The chasm between rich and poor in this life becomes an uncrossable chasm in the next. Indifference to the beggar is a damnable sin."
+                            },
+                            { 
+                                day: "2nd Friday", 
+                                reading: "Matt 21:33-43, 45-46", 
+                                title: "When All Bad Jews the Wicked Husbandmen Conspire to Kill Jesus", 
+                                color: "liturgy-purple",
+                                reflection: "A parable of rejection. The tenants kill the son to seize the inheritance. Jesus predicts his own death at the hands of the religious elite."
+                            },
+                            { 
+                                day: "2nd Saturday", 
+                                reading: "Luke 15:1-3, 11-32", 
+                                title: "The Prodigal Son Returns", 
+                                color: "liturgy-purple",
+                                reflection: "The heart of the Gospel. The Father runs to meet the younger sinner and pleads with the older legalist. Both need his love."
+                            }
+                        ]
+                    },
+                    {
+                        name: "Third Week: The Scrutinies Begin",
+                        days: [
+                            { 
+                                day: "3rd SUNDAY", 
+                                title: "The Sunday of Living Water",
+                                color: "liturgy-purple",
+                                isTrilogy: true,
+                                trilogy: [
+                                    { year: "Year A (Baptism)", reading: "John 4:5-42", desc: "Water of Life: The Samaritan woman leaves her jar because she found the Source." },
+                                    { year: "Year B (Signs)", reading: "John 2:13-25", desc: "Springtime Temple Cleaning: Zeal for the Father's house consumes Him." },
+                                    { year: "Year C (Repentance)", reading: "Luke 13:1-9", desc: "Barren Fig: God is patient and digs around our roots, but fruit is expected!" }
+                                ]
+                            },
+                            { 
+                                day: "3rd Monday", 
+                                reading: "Luke 4:24-30", 
+                                title: "When Jesus was Heckled: 'Hometown Will Abandon Homegrown Prophets'", 
+                                color: "liturgy-purple",
+                                reflection: "Familiarity breeds contempt. Nazareth wanted magic tricks; Jesus gave them hard truth, and they tried to throw him off a cliff."
+                            },
+                            { 
+                                day: "3rd Tuesday", 
+                                reading: "Matt 18:21-35", 
+                                title: "Forgive 490x: Don't Be Like the Unforgiving Servant!", 
+                                color: "liturgy-purple",
+                                reflection: "Forgiveness isn't math; it's a lifestyle. Since God canceled our unpayable debt, we have no right to choke our neighbors for small debts."
+                            },
+                            { 
+                                day: "3rd Wednesday", 
+                                reading: "Matt 5:17-19", 
+                                title: "Jesus Is the Fulfillment of Torah", 
+                                color: "liturgy-purple",
+                                reflection: "Jesus doesn't abolish the Law; He fills it to the brim. Every jot and tittle matters because it points to the design of the Kingdom."
+                            },
+                            { 
+                                day: "3rd Thursday", 
+                                reading: "Luke 11:14-23", 
+                                title: "When Jesus Was Accused of Having Satan: 'When House Divided 'gainst Itself...'", 
+                                color: "liturgy-purple",
+                                reflection: "Jesus casts out demons by the finger of God. You cannot be neutral in this war; you either gather with Him or you scatter."
+                            },
+                            { 
+                                day: "3rd Friday", 
+                                reading: "Mark 12:28b-34", 
+                                title: "The Greatest Commandment: Love God and Others", 
+                                color: "liturgy-purple",
+                                reflection: "Theology is simple but hard. The entire law hangs on two hooks: Love God with everything, and love your neighbor as yourself."
+                            },
+                            { 
+                                day: "3rd Saturday", 
+                                reading: "Luke 18:9-14", 
+                                title: "Pharisee and Publican: Be Like the Publican: 'Have Mercy on Me, a Sinner!'", 
+                                color: "liturgy-purple",
+                                reflection: "One boasted of his fasting; the other beat his breast. Humility opens the door to justification; pride locks it from the inside."
+                            }
+                        ]
+                    }
+                ]
+            },
+            2: {
+                title: "Part 2: Lenten Stories from John",
+                subtitle: "Jesus v. The Bad Jews",
+                intro: "We shift to the Gospel of John. The tension rises as the Light of the World confronts the darkness of established power and 'The Bad Jews'—the religious authorities who refuse to see.",
+                weeks: [
+                    {
+                        name: "Fourth Week: Laetare Sunday",
+                        days: [
+                            { 
+                                day: "4th SUNDAY (Laetare)", 
+                                title: "Rejoice! The Light is Here",
+                                color: "liturgy-rose",
+                                isTrilogy: true,
+                                trilogy: [
+                                    { year: "Year A (Baptism)", reading: "John 9:1-41", desc: "Faith in Sight: Faith of the Man Blind Since Birth" },
+                                    { year: "Year B (Signs)", reading: "John 3:14-21", desc: "Night Chat: 'For God So Loved the World...'" },
+                                    { year: "Year C (Repentance)", reading: "Luke 15:1-3, 11-32", desc: "The Prodigal Son Returns" }
+                                ]
+                            },
+                            { 
+                                day: "4th Monday", 
+                                reading: "John 4:43-54", 
+                                title: "Noontime Healing at Cana: 'Say and My Son will be Healed!'", 
+                                color: "liturgy-purple",
+                                reflection: "The official wanted a visit; Jesus gave him a Word. Faith matures when we believe without seeing signs and wonders first." 
+                            },
+                            { 
+                                day: "4th Tuesday", 
+                                reading: "John 5:1-16", 
+                                title: "Bethseda Healing: When Jesus Healed on Saturday", 
+                                color: "liturgy-purple",
+                                reflection: "38 years of waiting ends in a moment. But because he carried his mat on the Sabbath, the authorities miss the miracle to police the rules." 
+                            },
+                            { 
+                                day: "4th Wednesday", 
+                                reading: "John 5:17-30", 
+                                title: "Bethseda Arguments: 'While My Dad Works, I Work!'", 
+                                color: "liturgy-purple",
+                                reflection: "The defense begins. Jesus claims the ultimate alibi: He works because His Father works. To call God 'Dad' in this unique way was a death sentence." 
+                            },
+                            { 
+                                day: "4th Thursday", 
+                                reading: "John 5:31-47", 
+                                title: "Bethseda Arguments: 'My Verdict Is True, and Moses Verifed It!'", 
+                                color: "liturgy-purple",
+                                reflection: "The court summons witnesses. John the Baptist, the miracles, the Father's voice, and finally Moses himself—all testify for the defense, but the jury is rigged." 
+                            },
+                            { 
+                                day: "4th Friday", 
+                                reading: "John 7:1-2, 10, 25-30", 
+                                title: "Origin Arguments on Sukkot - Part I: 'You Didn't Know Where I Come From!'", 
+                                color: "liturgy-purple",
+                                reflection: "Confusion in the crowds. They know his address in Nazareth, but they miss his origin in Heaven. You can't know the Sent One if you don't know the Sender." 
+                            },
+                            { 
+                                day: "4th Saturday", 
+                                reading: "John 7:40-53", 
+                                title: "Origin Arguments on Sukkot - Part II: 'No Prophet is From Galilee'", 
+                                color: "liturgy-purple",
+                                reflection: "Intellectual pride blinds the Sanhedrin. They mock the idea of a Galilean prophet, forgetting that God often chooses the foolish things to shame the wise." 
+                            }
+                        ]
+                    },
+                    {
+                        name: "Fifth Week: Passion Sunday",
+                        days: [
+                            { 
+                                day: "5th SUNDAY", 
+                                title: "Passion Sunday (The Scrutinies End)",
+                                color: "liturgy-purple",
+                                isTrilogy: true,
+                                trilogy: [
+                                    { year: "Year A (Baptism)", reading: "John 11:1-45", desc: "Lazarus' Comeback" },
+                                    { year: "Year B (Signs)", reading: "John 12:20-33", desc: "When a Grain Dies, then My Time Is Coming!" },
+                                    { year: "Year C (Repentance)", reading: "John 8:1-11", desc: "Adulterous Woman Forgiven: 'Stone Her Unless You Sin!'" }
+                                ]
+                            },
+                            { 
+                                day: "5th Monday", 
+                                reading: "John 8:1-11 (or 12-20)", 
+                                title: "Adulterous Woman / I Am the Light of the World", 
+                                color: "liturgy-purple",
+                                reflection: "(Year AB: 'Stone Her Unless You Sin!') Mercy triumphs over judgment. (Year C) The Light exposes the darkness—walk in it or stumble." 
+                            },
+                            { 
+                                day: "5th Tuesday", 
+                                reading: "John 8:21-30", 
+                                title: "Y'all Gonna Catch Me In Vain Where I'm Going!", 
+                                color: "liturgy-purple",
+                                reflection: "The tone darkens. 'You are from below; I am from above.' If you don't believe 'I AM', you die in your sins. The Cross ('lifted up') is the only exit." 
+                            },
+                            { 
+                                day: "5th Wednesday", 
+                                reading: "John 8:31-42", 
+                                title: "If Abraham Were Your Dad...", 
+                                color: "liturgy-purple",
+                                reflection: "Ancestry isn't salvation. They claim Abraham's blood, but act like the devil's kids. Truth frees you; lies enslave you." 
+                            },
+                            { 
+                                day: "5th Thursday", 
+                                reading: "John 8:51-59", 
+                                title: "Before Abraham Was, I Am!", 
+                                color: "liturgy-purple",
+                                reflection: "The climax of the conflict. He doesn't just claim to know Abraham; He claims God's personal name: 'I AM'. The stones come out." 
+                            },
+                            { 
+                                day: "5th Friday", 
+                                reading: "John 10:31-42", 
+                                title: "Hanukkah Stoning Attempt: 'Why Are You Stonin' Me to Death?'", 
+                                color: "liturgy-purple",
+                                reflection: "The Feast of Dedication. They want to stone him for blasphemy ('Coz nothing good but Blasphemy!'). He argues: 'Scripture calls judges gods, so why not Me?'" 
+                            },
+                            { 
+                                day: "5th Saturday", 
+                                reading: "John 11:45-56", 
+                                title: "Caiaphas Conspired: 'He'll Die to Gather All Israel'", 
+                                color: "liturgy-purple",
+                                reflection: "Political expediency masked as theology. Caiaphas unwittingly prophesies: Jesus will indeed die for the nation, and to gather the scattered children of God." 
+                            }
+                        ]
+                    }
+                ]
+            },
+            3: {
+                title: "Part 3: Holy Week",
+                subtitle: "The Climax of the Season",
+                intro: "The atmosphere changes. We walk the final steps to Golgotha, witnessing the ultimate betrayal and the ultimate love.",
+                weeks: [
+                    {
+                        name: "The Great Week",
+                        days: [
+                            { 
+                                day: "PALM SUNDAY", 
+                                title: "The Lord's Passion",
+                                color: "liturgy-red",
+                                isTrilogy: true,
+                                trilogy: [
+                                    { year: "Gospel I (Procession)", reading: "Matt 21 / Mark 11 / Luke 19 / John 12", desc: "Jerusalem Arrival: Hosanna to Son of David!" },
+                                    { year: "Gospel II (The Narrative)", reading: "Matt 26 / Mark 14 / Luke 22", desc: "The Sad Passion Narrative: The Passion of the Lord according to the Synoptics" },
+                                    { year: "Mood", reading: "Sorrowful", desc: "We wave palms of victory, but we read the story of defeat and death." }
+                                ]
+                            },
+                            { 
+                                day: "Holy Monday", 
+                                reading: "John 12:1-11", 
+                                title: "Anointing at Bethany: 'Martha Did It for My Burial'", 
+                                color: "liturgy-purple",
+                                reflection: "Mary wastes expensive perfume on Jesus' feet. Judas calls it waste; Jesus calls it love preparation for the grave."
+                            },
+                            { 
+                                day: "Holy Tuesday", 
+                                reading: "John 13:21-33, 36-38", 
+                                title: "Betrayals Leak: 'Judas'll Backstab Me, while Pete'll Deny Me Thrice'", 
+                                color: "liturgy-purple",
+                                reflection: "The inner circle cracks. One will sell Him for silver, the other will deny Him out of fear. Darkness enters the room."
+                            },
+                            { 
+                                day: "Spy Wednesday", 
+                                reading: "Matt 26:14-25", 
+                                title: "Woe to You Judas, Selling Jesus for 30 Bucks: 'It's Better for Him NOT to Be Born!'", 
+                                color: "liturgy-purple", 
+                                reflection: "The deal is done. The price of a slave (30 pieces of silver) is set for the Master of the Universe. The traitor seeks his opportunity."
+                            },
+                            { 
+                                day: "Maundy Thursday", 
+                                reading: "John 13:1-15", 
+                                title: "Foot Spa of Love: 'Wash Each Other's Feet with Love!'", 
+                                color: "liturgy-gold",
+                                reflection: "The Master becomes the slave. He strips off his robes to wash the grime from the feet of those who will run away from him tonight."
+                            }, 
+                            { 
+                                day: "GOOD FRIDAY", 
+                                reading: "John 18:1 - 19:42", 
+                                title: "The Passion of Jesus according to John: 'It Is Finished!'", 
+                                color: "liturgy-red",
+                                reflection: "The King is enthroned on the Cross. It is not a tragedy, but a triumph. He hands over the Spirit and completes the work."
+                            },
+                            { 
+                                day: "Holy Saturday", 
+                                reading: "NO GOSPEL READINGS", 
+                                title: "The Great Silence (Morning)", 
+                                color: "liturgy-purple",
+                                reflection: "The King sleeps. The earth trembles and is still because God has fallen asleep in the flesh and raised up those who have slept since the world began."
+                            }
+                        ]
+                    }
+                ]
+            },
+            4: {
+                title: "Part 4: Lenten Feast Days",
+                subtitle: "Solemnities & Feasts in the Desert",
+                intro: "Since all Weekdays of Lent are privileged weekdays, most saints are only commemorations. However, there are glorious exceptions that break the fasting gloom with white vestments. <br><br><strong>Note:</strong> Any saint falling on Ash Wednesday, in Holy Week, or during the Easter Octave is IMPEDED 100%.",
+                weeks: [
+                    {
+                        name: "The Fixed Feasts",
+                        days: [
+                            { 
+                                day: "22 FEBRUARY (Feast)", 
+                                reading: "Matt 16:13-19", 
+                                title: "The Chair of St Peter the Apostle", 
+                                color: "liturgy-gold",
+                                reflection: "Peter: 'You're the Christ!' - A celebration of the Petrine office and the unity of the Church.",
+                                rubrics: "OMITTED if falling on any Sunday, including those in Lent."
+                            },
+                            { 
+                                day: "19 MARCH (Solemnity)", 
+                                reading: "Matt 1:16, 18-21 OR Luke 2:41-51", 
+                                title: "Saint Joseph, Spouse of the BVM", 
+                                color: "liturgy-gold",
+                                reflection: "How Joseph Became Jesus' Foster Dad / Lost in the Temple. Patron of Vietnam and the Universal Church.",
+                                rubrics: "TRANSFER RULES:<br>- If on a Sunday of Lent: Transferred to Monday, 20 March.<br>- If in Holy Week: Transferred to Saturday before Palm Sunday (Lent's 5th Saturday). <br>(e.g. 15 March 2008 because 19 March was Spy Wednesday)."
+                            },
+                            { 
+                                day: "25 MARCH (Solemnity)", 
+                                reading: "Luke 1:26-38", 
+                                title: "The Annunciation of the Lord", 
+                                color: "liturgy-gold",
+                                reflection: "Gabriel: 'You've Got God's Son!' - Mary: 'Fiat!' The moment the Word became Flesh.",
+                                rubrics: "TRANSFER RULES:<br>- If on a Sunday of Lent: Transferred to Monday, 26 March.<br>- If in Holy Week or Easter Octave: Transferred to Monday after the Octave (2nd Monday of Eastertide).<br>- Angelus is TRADED for Regina Coeli in Eastertide."
+                            }
+                        ]
+                    },
+                    {
+                        name: "The Commemorations",
+                        days: [
+                            {
+                                day: "Various Dates",
+                                reading: "Lenten Weekday Proper takes precedence",
+                                title: "List of Lenten Commemorations",
+                                color: "liturgy-purple",
+                                reflection: "While the Lenten season takes precedence, the Church remembers these holy men and women. If a memorial falls on a Lenten weekday, it may be celebrated as a Commemoration (Collect only).",
+                                rubrics: `
+                                    <div class="mb-2 font-bold text-yellow-500 text-xs uppercase tracking-wide">General Rules:</div>
+                                    <ul class="list-disc list-inside mb-4 text-xs space-y-1 text-gray-300">
+                                        <li><span class="text-white">Ash Wednesday Rule:</span> Saints falling on Ash Wednesday are "kicked" (omitted).</li>
+                                        <li><span class="text-white">Lenten Precedence:</span> On Lenten weekdays, the proper of the day must always be read. The saint is commemorated only (Collect prayer).</li>
+                                    </ul>
+                                    <div class="font-bold text-yellow-500 mb-2 text-xs uppercase tracking-wide">Calendar (Rank outside Lent):</div>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-1 text-xs">
+                                        <div class="flex justify-between border-b border-white/10 pb-1"><span><span class="text-yellow-200">05 Feb:</span> St. Agatha</span> <span class="text-gray-400">Mem</span></div>
+                                        <div class="flex justify-between border-b border-white/10 pb-1"><span><span class="text-yellow-200">06 Feb:</span> Ss. Paul Miki & Comp</span> <span class="text-gray-400">Mem</span></div>
+                                        <div class="flex justify-between border-b border-white/10 pb-1"><span><span class="text-yellow-200">08 Feb:</span> St. Jerome Emiliani</span> <span class="text-gray-400">Opt</span></div>
+                                        <div class="flex justify-between border-b border-white/10 pb-1"><span><span class="text-yellow-200">08 Feb:</span> St. Josephine Bakhita</span> <span class="text-gray-400">Opt</span></div>
+                                        <div class="flex justify-between border-b border-white/10 pb-1"><span><span class="text-yellow-200">10 Feb:</span> St. Scholastica</span> <span class="text-gray-400">Mem</span></div>
+                                        <div class="flex justify-between border-b border-white/10 pb-1"><span><span class="text-yellow-200">11 Feb:</span> Our Lady of Lourdes</span> <span class="text-gray-400">Opt</span></div>
+                                        <div class="flex justify-between border-b border-white/10 pb-1"><span><span class="text-yellow-200">14 Feb:</span> Ss. Cyril & Methodius</span> <span class="text-gray-400">Mem</span></div>
+                                        <div class="flex justify-between border-b border-white/10 pb-1"><span><span class="text-yellow-200">17 Feb:</span> 7 Founders of Servites</span> <span class="text-gray-400">Opt</span></div>
+                                        <div class="flex justify-between border-b border-white/10 pb-1"><span><span class="text-yellow-200">21 Feb:</span> St. Peter Damian</span> <span class="text-gray-400">Opt</span></div>
+                                        <div class="flex justify-between border-b border-white/10 pb-1"><span><span class="text-yellow-200">23 Feb:</span> St. Polycarp</span> <span class="text-gray-400">Mem</span></div>
+                                        <div class="flex justify-between border-b border-white/10 pb-1"><span><span class="text-yellow-200">27 Feb:</span> St. Gregory of Narek</span> <span class="text-gray-400">Opt</span></div>
+                                        <div class="flex justify-between border-b border-white/10 pb-1"><span><span class="text-yellow-200">04 Mar:</span> St. Casimir</span> <span class="text-gray-400">Opt</span></div>
+                                        <div class="flex justify-between border-b border-white/10 pb-1"><span><span class="text-yellow-200">07 Mar:</span> Ss. Perpetua & Felicity</span> <span class="text-gray-400">Mem</span></div>
+                                        <div class="flex justify-between border-b border-white/10 pb-1"><span><span class="text-yellow-200">08 Mar:</span> St. John of God</span> <span class="text-gray-400">Opt</span></div>
+                                        <div class="flex justify-between border-b border-white/10 pb-1"><span><span class="text-yellow-200">09 Mar:</span> St. Frances of Rome</span> <span class="text-gray-400">Opt</span></div>
+                                        <div class="flex justify-between border-b border-white/10 pb-1"><span><span class="text-yellow-200">17 Mar:</span> St. Patrick</span> <span class="text-gray-400">Opt</span></div>
+                                        <div class="flex justify-between border-b border-white/10 pb-1"><span><span class="text-yellow-200">18 Mar:</span> St. Cyril of Jerusalem</span> <span class="text-gray-400">Opt</span></div>
+                                        <div class="flex justify-between border-b border-white/10 pb-1"><span><span class="text-yellow-200">23 Mar:</span> St. Turibius of Mongrovejo</span> <span class="text-gray-400">Opt</span></div>
+                                        <div class="flex justify-between border-b border-white/10 pb-1"><span><span class="text-yellow-200">02 Apr:</span> St. Francis of Paola</span> <span class="text-gray-400">Opt</span></div>
+                                        <div class="flex justify-between border-b border-white/10 pb-1"><span><span class="text-yellow-200">04 Apr:</span> St. Isidore</span> <span class="text-gray-400">Opt</span></div>
+                                        <div class="flex justify-between border-b border-white/10 pb-1"><span><span class="text-yellow-200">05 Apr:</span> St. Vincent Ferrer</span> <span class="text-gray-400">Opt</span></div>
+                                        <div class="flex justify-between border-b border-white/10 pb-1"><span><span class="text-yellow-200">07 Apr:</span> St. John Baptist de la Salle</span> <span class="text-gray-400">Mem</span></div>
+                                        <div class="flex justify-between border-b border-white/10 pb-1"><span><span class="text-yellow-200">11 Apr:</span> St. Stanislaus</span> <span class="text-gray-400">Mem</span></div>
+                                        <div class="flex justify-between border-b border-white/10 pb-1"><span><span class="text-yellow-200">13 Apr:</span> St. Martin I</span> <span class="text-gray-400">Opt</span></div>
+                                    </div>
+                                `
+                            }
+                        ]
+                    }
+                ]
+            },
+            6: {
+                title: "Part 6: The Easter Vigil",
+                subtitle: "The Finale: The Mother of All Vigils",
+                intro: "\"At the Vigil on the holy night of Easter there are seven Old Testament readings which recall the wonderful works of God in the history of salvation.\" (Lectionary for Mass, 99)",
+                weeks: [
+                    {
+                        name: "The Service of the Word",
+                        days: [
+                            {
+                                day: "The 7 OT Readings",
+                                reading: "History of Salvation",
+                                title: "The Prophecies",
+                                color: "liturgy-gold",
+                                reflection: "We retell the story from the beginning. From Creation to the New Creation.",
+                                rubrics: `
+                                    <div class="mb-2 font-bold text-yellow-500 text-xs uppercase tracking-wide">The Seven Readings:</div>
+                                    <ol class="list-decimal list-inside mb-4 text-xs space-y-1 text-gray-300">
+                                        <li>Genesis 1:1 - 2:2 (Creation)</li>
+                                        <li>Genesis 22:1-18 (Abraham & Isaac)</li>
+                                        <li class="text-red-300 font-bold">Exodus 14:15 - 15:1 (The Red Sea - MANDATORY, or Vigil is invalid)</li>
+                                        <li>Isaiah 54:5-14</li>
+                                        <li>Isaiah 55:1-11</li>
+                                        <li>Baruch 3:9-15, 32-4:4 (Apocrypha)</li>
+                                        <li>Ezekiel 36:16-17a, 18-28</li>
+                                    </ol>
+                                    <div class="italic text-gray-400 text-[10px]">*The Gloria is sung after the OT readings (min 2 + Exodus).</div>
+                                `
+                            },
+                            {
+                                day: "Epistle",
+                                reading: "Romans 6:3-11",
+                                title: "Death and Life in Baptism",
+                                color: "liturgy-gold",
+                                reflection: "St. Paul reminds us: We were buried with Him in baptism so we might walk in newness of life.",
+                                rubrics: "Followed by the Solemn Alleluia (The first time sung since Shrove Tuesday!)"
+                            },
+                            {
+                                day: "The Gospel",
+                                title: "The Empty Tomb",
+                                color: "liturgy-gold",
+                                isTrilogy: true,
+                                trilogy: [
+                                    { year: "Year A", reading: "Matthew 28:1-10", desc: "The Earth Quakes. The Guards Freeze. 'He is not here!'" },
+                                    { year: "Year B", reading: "Mark 16:1-7", desc: "The Stone Rolled Away. 'Go tell his disciples and Peter.'" },
+                                    { year: "Year C", reading: "Luke 24:1-12", desc: "Why look for the living among the dead? Peter runs to the tomb." }
+                                ]
+                            },
+                            {
+                                day: "Important Rubric",
+                                reading: "Paschalis Solemnitatis, no. 78",
+                                title: "The Night Watch (Timing)",
+                                color: "liturgy-red",
+                                reflection: "The Vigil is a nocturnal celebration, not an anticipated Mass.",
+                                rubrics: "According to Paschalis Solemnitatis no. 78, Lent ends at nightfall of Holy Saturday, hence parishes must not celebrate Easter Vigil on usual Saturday anticipation mass times (as it will be the reprehensible abuses). And the entire celebration of the Easter Vigil takes place at night. It should not begin before nightfall; it should end before daybreak on Sunday. The nightfall time is usually the Isha praying time, the Saturday havdalah time."
+                            }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        const contentArea = document.getElementById('content-area');
+        const buttons = {
+            1: document.getElementById('btn-part1'),
+            2: document.getElementById('btn-part2'),
+            3: document.getElementById('btn-part3'),
+            4: document.getElementById('btn-part4'),
+            5: document.getElementById('btn-part5'),
+            6: document.getElementById('btn-part6')
+        };
+
+        function setPart(partNumber) {
+            // Update Buttons
+            Object.values(buttons).forEach(btn => {
+                if(btn) {
+                    btn.classList.remove('tab-active', 'bg-purple-900', 'bg-opacity-50');
+                    btn.classList.add('opacity-70');
+                }
+            });
+            if(buttons[partNumber]) {
+                buttons[partNumber].classList.add('tab-active', 'bg-purple-900', 'bg-opacity-50');
+                buttons[partNumber].classList.remove('opacity-70');
+            }
+
+            if(partNumber === 5) {
+                renderCalendar();
+            } else {
+                renderContent(lectionaryData[partNumber]);
+            }
+        }
+
+        function renderContent(data) {
+            let html = `
+                <div class="animate-fade-in mb-8 text-center">
+                    <h2 class="text-3xl text-yellow-500 mb-1 cinzel">${data.title}</h2>
+                    <h3 class="text-xl text-purple-300 mb-4">${data.subtitle}</h3>
+                    <p class="text-gray-300 italic">${data.intro}</p>
+                </div>
+            `;
+
+            data.weeks.forEach(week => {
+                html += `
+                    <div class="mb-10">
+                        <div class="flex items-center mb-4">
+                            <div class="h-px bg-purple-600 flex-grow"></div>
+                            <h4 class="px-4 text-xl font-bold text-yellow-100 uppercase tracking-widest">${week.name}</h4>
+                            <div class="h-px bg-purple-600 flex-grow"></div>
+                        </div>
+                        <div class="space-y-4">
+                `;
+
+                week.days.forEach(day => {
+                    if (day.isTrilogy) {
+                        html += `
+                            <div class="card ${day.color} p-6 rounded-lg text-white">
+                                <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-4 border-b border-white border-opacity-20 pb-2">
+                                    <span class="font-bold text-lg uppercase tracking-wider">${day.day}</span>
+                                    <span class="text-yellow-300 font-serif italic">${day.title}</span>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                    ${day.trilogy.map(t => `
+                                        <div class="bg-black bg-opacity-20 p-3 rounded">
+                                            <div class="text-xs font-bold text-yellow-500 mb-1">${t.year}</div>
+                                            <div class="text-xs text-gray-300 mb-1 font-mono">${t.reading}</div>
+                                            <div class="text-sm font-medium leading-tight">"${t.desc}"</div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        `;
+                    } else {
+                        // Logic for reflection and rubrics
+                        const reflectionHTML = day.reflection ? `<p class="mt-2 text-sm text-gray-300 italic">"${day.reflection}"</p>` : '';
+                        const rubricsHTML = day.rubrics ? `<div class="mt-3 text-xs text-gray-400 border-t border-gray-500 pt-2 font-mono bg-black bg-opacity-20 p-2 rounded">${day.rubrics}</div>` : '';
+                        
+                        html += `
+                            <div class="card ${day.color} p-5 rounded-lg text-white flex flex-col md:flex-row gap-4 items-start md:items-center">
+                                <div class="md:w-1/4">
+                                    <div class="font-bold uppercase text-sm text-yellow-500/80">${day.day}</div>
+                                    <div class="font-mono text-xs text-purple-200">${day.reading}</div>
+                                </div>
+                                <div class="md:w-3/4 border-l-2 border-white border-opacity-10 pl-4 md:pl-6 w-full">
+                                    <h5 class="text-lg font-serif leading-snug text-yellow-100">${day.title}</h5>
+                                    ${reflectionHTML}
+                                    ${rubricsHTML}
+                                </div>
+                            </div>
+                        `;
+                    }
+                });
+
+                html += `</div></div>`;
+            });
+
+            contentArea.innerHTML = html;
+            
+            // Trigger animation
+            contentArea.animate([
+                { opacity: 0, transform: 'translateY(10px)' },
+                { opacity: 1, transform: 'translateY(0)' }
+            ], {
+                duration: 400,
+                easing: 'ease-out'
+            });
+        }
+
+        // --- PART 5 Logic ---
+        function renderCalendar() {
+            let html = `
+                <div class="animate-fade-in mb-8 text-center">
+                    <h2 class="text-3xl text-yellow-500 mb-1 cinzel">Interactive Lenten Calendar</h2>
+                    <h3 class="text-xl text-purple-300 mb-4">Calculate the Season</h3>
+                    <p class="text-gray-300 italic">Select the date of Easter to see the structure of Lent and Feast Day transfers.</p>
+                </div>
+
+                <div class="bg-black bg-opacity-40 p-6 rounded-lg border border-purple-700 mb-8 max-w-xl mx-auto">
+                    <div class="flex flex-col md:flex-row gap-4 justify-center items-center">
+                        <div class="flex flex-col">
+                            <label class="text-xs uppercase text-yellow-500 font-bold mb-1">Easter Date (Mar 22 - Apr 25)</label>
+                            <select id="easterDate" onchange="updateCalendarResult()">
+                                ${generateDateOptions()}
+                            </select>
+                        </div>
+                        <div class="flex items-center mt-4 md:mt-0">
+                            <input type="checkbox" id="leapYear" onchange="updateCalendarResult()" class="mr-2 h-5 w-5 accent-yellow-500">
+                            <label for="leapYear" class="text-sm font-bold text-white">Leap Year?</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="calendarResult" class="space-y-4"></div>
+
+                <!-- Lenten Discipline Note -->
+                <div class="card liturgy-purple p-5 rounded-lg text-white mt-8 animate-fade-in border-t-4 border-yellow-600">
+                    <h4 class="text-yellow-500 font-bold border-b border-white/20 pb-2 mb-3 uppercase text-sm tracking-wider"><i class="fas fa-balance-scale mr-2"></i>Lenten Discipline & Rubrics</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-fish text-blue-300 mt-1"></i>
+                            <div>
+                                <span class="font-bold text-blue-200">Abstinence (Age 14+):</span> 
+                                On <span class="text-yellow-200">Ash Wednesday</span> and <span class="text-yellow-200">every Friday in Lent</span>, you must abstain from meat. 
+                                <span class="italic text-gray-400 block text-xs mt-1">Note: Vegan, seafood, dairy, or eggs are OKAY.</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-bread-slice text-yellow-300 mt-1"></i>
+                            <div>
+                                <span class="font-bold text-yellow-200">Fasting (Age 18-59):</span> 
+                                On <span class="text-yellow-200">Ash Wednesday</span> and <span class="text-red-300">Good Friday</span>, you must fast.
+                                <span class="italic text-gray-400 block text-xs mt-1">Rule: 1 full meal and two smaller meals that together do not equal a full meal. No snacks between meals.</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fas fa-ban text-red-500 mt-1"></i>
+                            <div>
+                                <span class="font-bold text-red-300">The "A-Word" Ban:</span> 
+                                On <span class="text-yellow-200">every day of Lent</span>, including all solemnities and feasts (e.g., St. Joseph, Annunciation), the <span class="font-bold">Alleluia is banned</span> with no exceptions.
+                                <span class="italic text-gray-400 block text-xs mt-1">The only Lenten day with Alleluia is the Easter Vigil (the last night of Lent).</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            `;
+            contentArea.innerHTML = html;
+            updateCalendarResult();
+        }
+
+        function generateDateOptions() {
+            let opts = "";
+            // March 22 to 31
+            for (let i = 22; i <= 31; i++) {
+                opts += `<option value="3-${i}">March ${i}</option>`;
+            }
+            // April 1 to 25
+            for (let i = 1; i <= 25; i++) {
+                opts += `<option value="4-${i}">April ${i}</option>`;
+            }
+            return opts;
+        }
+
+        function updateCalendarResult() {
+            const val = document.getElementById("easterDate").value;
+            const [m, d] = val.split('-').map(Number);
+            const isLeap = document.getElementById("leapYear").checked;
+
+            // Base date object (using dummy year 2024 for leap, 2023 for non-leap)
+            // Note: We only care about month/day math.
+            // But JS Date is tricky with variable years. 
+            // Simple approach: Use Day-of-Year index relative to Easter = 0.
+            
+            // Helper to format date from offset
+            // Offset 0 = Easter
+            // Offset -46 = Ash Wed
+            function getDateFromOffset(offset) {
+                // Determine Day of Year for Easter
+                // March 22 is Day 81 (Non-Leap) or 82 (Leap)
+                const march1Index = isLeap ? 61 : 60; // Jan(31)+Feb(28/29)+1 = 60/61 is March 1
+                
+                let easterDOY;
+                if (m === 3) {
+                    easterDOY = march1Index + (d - 1);
+                } else {
+                    // FIX: March has 31 days, so we must add 31, not 30, to get to April 1st base
+                    easterDOY = march1Index + 31 + (d - 1); 
+                }
+
+                let targetDOY = easterDOY + offset;
+                
+                // Convert back to Month/Day
+                // Simple lookup
+                const daysInFeb = isLeap ? 29 : 28;
+                const months = [31, daysInFeb, 31, 30, 31, 30, 31]; // J, F, M, A, M, J, J
+                
+                let currentDay = targetDOY;
+                let monthIndex = 0;
+                
+                while (currentDay > months[monthIndex]) {
+                    currentDay -= months[monthIndex];
+                    monthIndex++;
+                }
+                
+                const monthNames = ["January", "February", "March", "April", "May", "June"];
+                return { 
+                    f: `${monthNames[monthIndex]} ${currentDay}`, 
+                    m: monthIndex + 1, 
+                    d: currentDay,
+                    isSunday: (offset % 7 === 0) 
+                };
+            }
+
+            // Calculate Key Dates
+            const ashWed = getDateFromOffset(-46);
+            const palmSun = getDateFromOffset(-7);
+            const easter = getDateFromOffset(0);
+            
+            // Calculate Feasts
+            // 1. St Joseph (March 19)
+            let stJosephStatus = "March 19 (Standard)";
+            let stJosephClass = "text-yellow-200";
+            
+            // Check conflicts for St Joseph
+            // Does March 19 fall on a Sunday of Lent (-35, -28, -21, -14)?
+            // Or Holy Week (-7 to -1)?
+            
+            // We need to find the offset of March 19 relative to Easter
+            // March 19 DOY
+            const march1Index = isLeap ? 61 : 60;
+            const stJosephDOY = march1Index + 18; // March 19
+            
+            let easterDOY;
+            if (m === 3) {
+                easterDOY = march1Index + (d - 1);
+            } else {
+                 // FIX: Same fix here for offset consistency
+                easterDOY = march1Index + 31 + (d - 1);
+            }
+
+            const stJosephOffset = stJosephDOY - easterDOY;
+
+            if (stJosephOffset >= -7 && stJosephOffset < 0) {
+                 // Conflict: Holy Week (Palm Sunday to Holy Saturday)
+                 const transferDate = getDateFromOffset(-8); // Saturday before Palm Sunday
+                 stJosephStatus = `Transferred to Saturday, ${transferDate.f} (due to Holy Week)`;
+                 stJosephClass = "text-red-300 font-bold";
+            } else if (stJosephOffset % 7 === 0 && stJosephOffset < 0 && stJosephOffset > -46) {
+                // Conflict: Sunday of Lent
+                const transferDate = getDateFromOffset(stJosephOffset + 1); // Monday
+                stJosephStatus = `Transferred to Monday, ${transferDate.f} (due to Sunday of Lent)`;
+                stJosephClass = "text-yellow-400 font-bold";
+            } else if (stJosephOffset === -46) {
+                 // Conflict: Ash Wednesday
+                 // (Included for completeness logic, though arithmetically rare/impossible given standard Easter range)
+            }
+
+            // 2. Annunciation (March 25)
+            let annunciationStatus = "March 25 (Standard)";
+            let annunciationClass = "text-yellow-200";
+            
+            const annuncDOY = march1Index + 24; // March 25
+            const annuncOffset = annuncDOY - easterDOY;
+            
+            if ((annuncOffset >= -7 && annuncOffset <= 7)) {
+                // Conflict: Holy Week (-7 to -1) OR Easter Day (0) OR Octave (1-7)
+                // Note: Octave ends on Sunday (Day 7). Mon is Day 8.
+                // Rule: Transferred to Monday after Octave (Day 8)
+                const transferDate = getDateFromOffset(8);
+                annunciationStatus = `Transferred to Monday, ${transferDate.f} (due to Holy Week/Octave)`;
+                annunciationClass = "text-red-300 font-bold";
+            } else if (annuncOffset % 7 === 0 && annuncOffset < 0) {
+                 // Conflict: Sunday of Lent
+                 const transferDate = getDateFromOffset(annuncOffset + 1);
+                 annunciationStatus = `Transferred to Monday, ${transferDate.f} (due to Sunday of Lent)`;
+                 annunciationClass = "text-yellow-400 font-bold";
+            }
+
+            // HTML Output
+            const resultDiv = document.getElementById("calendarResult");
+            resultDiv.innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Key Dates Card -->
+                    <div class="card liturgy-purple p-4 rounded text-white">
+                        <h4 class="text-yellow-500 font-bold border-b border-white/20 pb-2 mb-2 uppercase text-sm">The Season Structure</h4>
+                        <div class="flex justify-between py-1 border-b border-white/10"><span>Ash Wednesday</span> <span class="font-mono text-yellow-200">${ashWed.f}</span></div>
+                        <div class="flex justify-between py-1 border-b border-white/10"><span>1st Sunday</span> <span class="font-mono">${getDateFromOffset(-42).f}</span></div>
+                        <div class="flex justify-between py-1 border-b border-white/10"><span>2nd Sunday</span> <span class="font-mono">${getDateFromOffset(-35).f}</span></div>
+                        <div class="flex justify-between py-1 border-b border-white/10"><span>3rd Sunday</span> <span class="font-mono">${getDateFromOffset(-28).f}</span></div>
+                        <div class="flex justify-between py-1 border-b border-white/10"><span>4th Sunday (Laetare)</span> <span class="font-mono text-pink-300">${getDateFromOffset(-21).f}</span></div>
+                        <div class="flex justify-between py-1 border-b border-white/10"><span>5th Sunday (Passion)</span> <span class="font-mono">${getDateFromOffset(-14).f}</span></div>
+                        <div class="flex justify-between py-1 border-b border-white/10"><span>Palm Sunday</span> <span class="font-mono text-red-300">${palmSun.f}</span></div>
+                        <div class="flex justify-between py-1 pt-2 font-bold text-lg"><span>Easter Sunday</span> <span class="font-mono text-yellow-400">${easter.f}</span></div>
+                    </div>
+
+                    <!-- Feasts Card -->
+                    <div class="card liturgy-gold p-4 rounded text-white">
+                        <h4 class="text-yellow-500 font-bold border-b border-white/20 pb-2 mb-2 uppercase text-sm">Solemnity Transfers</h4>
+                        <div class="mb-4">
+                            <div class="text-xs uppercase text-gray-400">St. Joseph (March 19)</div>
+                            <div class="${stJosephClass}">${stJosephStatus}</div>
+                        </div>
+                        <div>
+                            <div class="text-xs uppercase text-gray-400">The Annunciation (March 25)</div>
+                            <div class="${annunciationClass}">${annunciationStatus}</div>
+                        </div>
+                        <div class="mt-4 text-[10px] italic text-gray-400 border-t border-white/10 pt-2">
+                            *Transfers occur if the fixed date falls on a Sunday of Lent, during Holy Week, or (for Annunciation) during the Easter Octave.
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+             // Trigger simple fade in
+             resultDiv.animate([
+                { opacity: 0.5 },
+                { opacity: 1 }
+            ], { duration: 200 });
+        }
+
+        // Initialize Part 1
+        setPart(1);
+
+    </script>
+</body>
+</html>

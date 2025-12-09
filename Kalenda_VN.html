@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Công Bố Giáng Sinh - Kalenda</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&display=swap');
+        @import url("https://fonts.googleapis.com/css2?family=Playfair+Display+SC:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap");
+
+        body {
+            font-family: 'Merriweather', serif;
+            background-color: #fcfcf5;
+            color: #2b1d16;
+        }
+
+        h1, h2, h3, .drop-cap {
+            font-family: 'Playfair Display SC', serif;
+        }
+
+        .proclamation-text {
+            line-height: 1.9;
+            font-size: 1.2rem;
+        }
+
+        .drop-cap {
+            float: left;
+            font-size: 4rem;
+            line-height: 0.8;
+            padding-top: 4px;
+            padding-right: 8px;
+            padding-left: 3px;
+            color: #8b0000;
+        }
+
+        .rubric {
+            color: #cc0000;
+            font-size: 0.9em;
+            font-style: italic;
+            display: block;
+            margin-bottom: 0.5em;
+        }
+
+        .highlight-phrase {
+            border-bottom: 1px dotted #8b0000;
+            cursor: help;
+        }
+
+        .lunar-fill {
+            color: #b91c1c; /* red-700 */
+            font-weight: bold;
+            text-decoration: underline;
+            text-decoration-color: #b91c1c;
+            text-underline-offset: 4px;
+        }
+
+        table.epact-table th, table.epact-table td {
+            border: 1px solid #e5e7eb;
+            padding: 8px;
+            text-align: center;
+            font-size: 0.85rem;
+        }
+        table.epact-table th {
+            background-color: #f9fafb;
+            color: #8b0000;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center py-10 px-4 sm:px-8">
+
+    <!-- Header -->
+    <header class="max-w-4xl w-full text-center mb-10">
+        <div class="text-xs uppercase tracking-[0.2em] text-red-800 mb-2">Sổ bộ Các Thánh Rô-ma</div>
+        <h1 class="text-3xl sm:text-5xl font-bold text-gray-900 mb-4">Kalenda Giáng Sinh<br>(Lời Loan Báo Trọng Thể cho Lễ Giáng Sinh) </h1>
+        <p class="text-gray-600 italic">Bản dịch Tiếng Việt theo Sách Lễ Rôma 1962, do Thiện Dụ Tùng Thư sưu tầm</p>
+    </header>
+
+    <!-- Controls -->
+    <div class="max-w-4xl w-full bg-white border border-gray-200 shadow rounded-lg p-6 mb-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div>
+            <label for="yearInput" class="block text-sm font-bold text-gray-700 mb-1">Năm Phụng Vụ (Dương lịch):</label>
+            <div class="flex">
+                <input type="number" id="yearInput" class="border border-gray-300 rounded-l px-3 py-2 w-32 focus:outline-none focus:ring-2 focus:ring-red-800 font-mono" value="2025">
+                <button onclick="calculateKalenda()" class="bg-red-900 text-white px-4 py-2 rounded-r hover:bg-red-800 transition shadow">Cập nhật</button>
+            </div>
+        </div>
+        <div class="text-sm text-gray-600 sm:text-right text-center">
+            <p>Tuổi Mặt Trăng (25/12): <span id="lunarAgeResult" class="font-bold text-gray-900">...</span></p>
+            <p>Đọc là: <span id="lunarTextResult" class="font-bold text-red-900 text-lg capitalize">...</span></p>
+        </div>
+    </div>
+
+    <!-- The Proclamation Text -->
+    <main class="max-w-3xl w-full bg-white shadow-xl border-t-4 border-red-900 p-8 sm:p-12 mb-12 relative overflow-hidden">
+        <!-- Decoration background -->
+        <div class="absolute top-0 right-0 p-4 opacity-10 pointer-events-none">
+            <svg width="150" height="150" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" /></svg>
+        </div>
+
+        <div class="proclamation-text text-justify">
+            <span class="rubric text-center block mb-4">Được công bố vào ngày 24 tháng 12</span>
+            
+            <p class="mb-6">
+                <span class="drop-cap">N</span>gày thứ tám trước Kalends tháng Janvier, nhằm <span id="dynamicLunarText" class="lunar-fill">………………</span> âm lịch.
+            </p>
+
+            <div class="space-y-4">
+                <p>
+                    <span class="highlight-phrase" title="Theo niên đại học của Eusebius và Kinh Thánh bản Bảy Mươi (Septuagint)">Khỏi 5199 năm từ lúc tạo thiên lập địa</span>, là khi Đức Chúa Trời dựng nên trời đất;
+                </p>
+                <p>
+                    khỏi 2957 năm từ nước lụt Đại Hồng Thuỷ;
+                </p>
+                <p>
+                    khỏi 2015 năm từ tổ phụ Áp-ra-ham sinh ra;
+                </p>
+                <p>
+                    cách 1510 năm từ khi Môi-sê đem dân Y-sơ-ra-ên ra khỏi nước Ai Cập;
+                </p>
+                <p>
+                    được 1032 năm từ khi Đa-vít chịu xức dầu phong làm vua;
+                </p>
+                <p>
+                    trong tuần năm thứ 65 như Đa-ni-ên đã nói tiên tri;
+                </p>
+                <p>
+                    vào kỳ Thế Vận Hội thứ 194;
+                </p>
+                <p>
+                    khỏi 752 năm từ lúc nước Rô-ma được lập ra;
+                </p>
+                <p>
+                    năm thứ 42 dưới triều hoàng đế Au-gút-tơ;
+                </p>
+                <p>
+                    cả và thiên hạ bình an thới thạnh.
+                </p>
+
+                <div class="mt-8 pt-4 border-t border-gray-200">
+                    <p class="text-lg font-semibold text-red-900">
+                        ĐỨC CHÚA GIÊSU KITÔ,
+                    </p>
+                    <p>
+                        là Đức Chúa Trời hằng sống vô cùng, và là Con Một Đức Chúa Cha hằng có đời đời, bởi lòng lành muốn làm ơn thiêng liêng mà Người đã đến thế gian, bởi phép Đức Chúa Thánh Thần, mà Ngài đã xuống thai;
+                    </p>
+                    <p class="mt-2">
+                        khỏi chín tháng đoạn, Ngài đã sinh ra bởi Đức Bà Maria Đồng Trinh, tại thành Bêlem trong nước Giu-đê, nên người trong thế gian:
+                    </p>
+                </div>
+                
+                <p class="text-center font-bold text-xl mt-8 uppercase tracking-wide text-red-900 border-y-2 border-red-900 py-4">
+                    Đức Chúa Giêsu Kitô Chúa Chúng Con,<br>
+                    cứ theo tính xác thịt,<br>
+                    đã sinh ra đời!
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Calculation Explanation & Table -->
+    <section class="max-w-4xl w-full grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+        
+        <!-- Logic Explanation -->
+        <div class="bg-white p-6 rounded shadow border-t-4 border-gray-600">
+            <h2 class="text-xl mb-4 font-bold text-gray-800 uppercase">Cách Tính Ngày Âm Lịch</h2>
+            <div class="space-y-3 text-sm text-gray-700">
+                <p>
+                    Kalenda sử dụng ngày <strong>Âm lịch Phụng vụ</strong>. Ngày này được tính dựa trên số <strong>Epact</strong> (Tuổi mặt trăng vào ngày 1/1 dương lịch).
+                </p>
+                <p class="bg-gray-100 p-2 rounded font-mono text-xs">
+                    Công thức (Knuth/Gregorian):<br>
+                    Epact (e) = Tuổi trăng ngày 1/1<br>
+                    Ngày Trăng Giáng Sinh = (e + 4) % 30 + 1
+                </p>
+                <h3 class="font-bold text-red-800 mt-2">Quy tắc đọc số:</h3>
+                <ul class="list-disc ml-5 space-y-1">
+                    <li><strong>1 - 10:</strong> Đọc là "mồng X" (Ví dụ: mồng một, mồng mười).</li>
+                    <li><strong>15:</strong> Đọc là "ngày rằm".</li>
+                    <li><strong>11 - 19:</strong> Đọc là "mười X" (14 là mười bốn).</li>
+                    <li><strong>21 - 29:</strong> Đọc là "hăm X" (21 hăm mốt, 24 hăm tư, 25 hăm lăm).</li>
+                    <li><strong>30:</strong> Đọc là "ba mươi".</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Reference Table -->
+        <div class="bg-white p-6 rounded shadow border-t-4 border-gray-600 overflow-x-auto">
+            <h2 class="text-xl mb-4 font-bold text-gray-800 uppercase">Bảng Đối Chiếu (Epact &rarr; Ngày)</h2>
+            <div class="text-xs text-gray-500 mb-2 italic">Dựa trên bảng chữ cái Martyrology (a-u, A-P)</div>
+            
+            <table class="epact-table w-full">
+                <!-- Group 1: 1-19 -->
+                <thead>
+                    <tr>
+                        <th>Epact (Chữ)</th>
+                        <th>a (1)</th>
+                        <th>e (5)</th>
+                        <th>k (10)</th>
+                        <th>p (14)</th>
+                        <th>u (19)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Ngày 25/12</strong></td>
+                        <td>Mồng sáu</td>
+                        <td>Mồng mười</td>
+                        <td>Rằm</td>
+                        <td>Mười chín</td>
+                        <td>Hăm tư</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="my-2"></div>
+
+            <table class="epact-table w-full">
+                 <!-- Group 2: 20-30 -->
+                 <thead>
+                    <tr>
+                        <th>Epact (Chữ)</th>
+                        <th>A (20)</th>
+                        <th>F (25)</th>
+                        <th>G (26)</th>
+                        <th>N (29)</th>
+                        <th>P (*)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Ngày 25/12</strong></td>
+                        <td>Hăm lăm</td>
+                        <td>Ba mươi (hoặc hăm chín)</td>
+                        <td>Mồng một</td>
+                        <td>Mồng bốn</td>
+                        <td>Mồng năm</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Detailed Year Calculation -->
+    <section class="max-w-4xl w-full bg-white p-6 rounded shadow mb-10">
+        <h2 class="text-xl mb-4 font-bold text-gray-800">Chi Tiết Tính Toán Năm <span id="detailYear">2025</span></h2>
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm text-left text-gray-600">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3">Tham số</th>
+                        <th class="px-6 py-3">Giá trị</th>
+                        <th class="px-6 py-3">Giải thích</th>
+                    </tr>
+                </thead>
+                <tbody id="calcTableBody">
+                    <!-- JS fills this -->
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <footer class="text-center text-gray-500 text-sm pb-8">
+        <p>Thực hiện theo bảng tính của Martyrologium Romanum & Thiện Dụ Tùng Thư.</p>
+    </footer>
+
+    <script>
+        // Mảng mapping ngày âm lịch chính xác theo yêu cầu
+        const vietnameseLunarDays = [
+            "", // index 0 không dùng
+            "mồng một", "mồng hai", "mồng ba", "mồng bốn", "mồng năm",
+            "mồng sáu", "mồng bảy", "mồng tám", "mồng chín", "mồng mười",
+            "mười một", "mười hai", "mười ba", "mười bốn", "rằm",
+            "mười sáu", "mười bảy", "mười tám", "mười chín", "hai mươi",
+            "hăm mốt", "hăm hai", "hăm ba", "hăm tư", "hăm lăm",
+            "hăm sáu", "hăm bảy", "hăm tám", "hăm chín", "ba mươi"
+        ];
+
+        function convertToVietnameseLunarText(day) {
+            if (day >= 1 && day <= 30) {
+                return "ngày " + vietnameseLunarDays[day];
+            }
+            return "ngày " + day;
+        }
+
+        function calculateKalenda() {
+            const yearInput = document.getElementById('yearInput');
+            let year = parseInt(yearInput.value);
+            
+            if (isNaN(year)) {
+                year = new Date().getFullYear();
+                yearInput.value = year;
+            }
+
+            document.getElementById('detailYear').textContent = year;
+
+            // --- THUẬT TOÁN KNUTH/GREGORIAN EPACT ---
+            
+            // 1. Golden Number (Số Vàng) - chu kỳ 19 năm
+            const g = (year % 19) + 1;
+
+            // 2. Century (Thế kỷ)
+            const c_century = Math.floor(year / 100) + 1;
+
+            // 3. Solar Correction (Điều chỉnh Dương lịch)
+            const s = Math.floor((3 * c_century) / 4) - 12;
+            
+            // 4. Lunar Correction (Điều chỉnh Âm lịch)
+            const l = Math.floor((8 * c_century + 5) / 25) - 5;
+
+            // 5. Foundation (Cơ sở)
+            // Công thức chuẩn: f = (11 * g - 10) % 30
+            let f = (11 * g - 10) % 30;
+            if (f < 0) f += 30;
+
+            // 6. Gregorian Epact (Tuổi trăng ngày 1/1)
+            let e = (f - s + l) % 30;
+            if (e < 0) e += 30;
+
+            // 7. Christmas Lunar Date (Tuổi trăng ngày 25/12)
+            // Công thức: (Epact + 4) % 30 + 1
+            let c_lunar = (e + 4) % 30 + 1;
+
+            // Xử lý ngoại lệ: if e == 25 and g > 11: c = 29
+            // (Khi Epact 25 trùng với Số vàng > 11, nó được coi là Epact 25 "đen" dẫn đến ngày 29 thay vì 30)
+            let isException = false;
+            if (e === 25 && g > 11) {
+                c_lunar = 29;
+                isException = true;
+            }
+
+            // --- CẬP NHẬT GIAO DIỆN ---
+
+            // Chuyển số thành chữ
+            const textResult = convertToVietnameseLunarText(c_lunar);
+
+            // Cập nhật các vị trí hiển thị
+            document.getElementById('lunarAgeResult').textContent = c_lunar;
+            document.getElementById('lunarTextResult').textContent = textResult;
+            document.getElementById('dynamicLunarText').textContent = textResult;
+
+            // Cập nhật bảng chi tiết
+            const tbody = document.getElementById('calcTableBody');
+            tbody.innerHTML = `
+                <tr class="bg-white border-b">
+                    <td class="px-6 py-4 font-medium text-gray-900">Chỉ số vàng (g)</td>
+                    <td class="px-6 py-4">${g}</td>
+                    <td class="px-6 py-4">Vị trí trong chu kỳ 19 năm của mặt trăng.</td>
+                </tr>
+                <tr class="bg-gray-50 border-b">
+                    <td class="px-6 py-4 font-medium text-gray-900">Epact (e)</td>
+                    <td class="px-6 py-4">${e}</td>
+                    <td class="px-6 py-4">Tuổi mặt trăng vào ngày 1 tháng 1.</td>
+                </tr>
+                <tr class="bg-red-50 border-b border-red-200">
+                    <td class="px-6 py-4 font-bold text-red-900">Tuổi trăng 25/12</td>
+                    <td class="px-6 py-4 font-bold text-red-900">${c_lunar}</td>
+                    <td class="px-6 py-4 text-red-900">(Epact + 4) % 30 + 1 ${isException ? '(Ngoại lệ Epact 25)' : ''}</td>
+                </tr>
+            `;
+        }
+
+        // Chạy khi tải trang
+        window.onload = function() {
+            calculateKalenda();
+        };
+
+        // Cho phép nhấn Enter
+        document.getElementById('yearInput').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                calculateKalenda();
+            }
+        });
+    </script>
+</body>
+</html>

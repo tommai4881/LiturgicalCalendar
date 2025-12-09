@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Kalenda Proclamation & Lunar Calculator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Lato:ital,wght@0,300;0,400;0,700;1,400&family=Merriweather:ital,wght@0,300;0,700;1,300&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: #fdfbf7;
+            color: #1a202c;
+        }
+        h1, h2, h3, .liturgical-font {
+            font-family: 'Cinzel', serif;
+        }
+        .proclamation-text {
+            font-family: 'Merriweather', serif;
+            line-height: 1.8;
+        }
+        .drop-cap::first-letter {
+            font-size: 3.5rem;
+            float: left;
+            margin-right: 0.5rem;
+            line-height: 0.8;
+            font-family: 'Cinzel', serif;
+            color: #b91c1c; /* Red-700 */
+        }
+        .chant-section {
+            border-left: 4px solid #b91c1c;
+        }
+        /* Custom parchment texture effect */
+        .parchment {
+            background-color: #fffefc;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+        }
+    </style>
+</head>
+<body class="parchment min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-red-900 text-amber-50 py-8 shadow-lg border-b-4 border-amber-500">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-3xl md:text-5xl font-bold tracking-widest uppercase mb-2">The Kalenda</h1>
+            <p class="text-sm md:text-lg italic text-amber-200">The Proclamation of the Birth of Christ</p>
+        </div>
+    </header>
+
+    <main class="flex-grow container mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+        <!-- Left Column: The Proclamation Text -->
+        <div class="lg:col-span-7 space-y-8">
+            
+            <!-- Live Generated Box -->
+            <div class="bg-white p-6 md:p-10 rounded-lg shadow-xl border border-gray-200 relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-red-800 via-amber-500 to-red-800"></div>
+                
+                <h2 class="text-2xl text-center text-red-900 font-bold mb-6 border-b pb-4">Proclamation Text for <span id="displayYear" class="text-amber-700">2024</span></h2>
+                
+                <div class="proclamation-text text-lg text-gray-800">
+                    <p class="mb-4 font-bold text-center uppercase tracking-widest text-red-800">
+                        The Eighth Kalends of January, <br>
+                        <span id="lunarText" class="text-amber-600 bg-amber-50 px-2 rounded">the twenty-fourth</span> day of the Moon.
+                    </p>
+
+                    <p class="drop-cap mb-4">
+                        In the year 5199 since the world was created, when ages beyond number had run their course from the creation of the world, when God in the beginning created heaven and earth, and formed man in His own likeness;
+                    </p>
+                    <p class="mb-4">
+                        2957 years after the Flood, when century upon century had passed since the Almighty set His bow in the clouds after the Great Flood, as a sign of covenant and peace;
+                    </p>
+                    <p class="mb-4">
+                        2015 years since Abraham’s birth;
+                    </p>
+                    <p class="mb-4">
+                        in the twenty-first century since Abraham, our father in faith, came out of Ur of the Chaldees;
+                    </p>
+                    <p class="mb-4">
+                        1510 years since the People of Israel were led by Moses in the Exodus from Egypt;
+                    </p>
+                    <p class="mb-4">
+                        1032 years since David was anointed king of Israel;
+                    </p>
+                    <p class="mb-4">
+                        in the 65th week of the prophecy of Daniel;
+                    </p>
+                    <p class="mb-4">
+                        in the 194th Olympiad;
+                    </p>
+                    <p class="mb-4">
+                        in the year 752 since the founding of Rome;
+                    </p>
+                    <p class="mb-4">
+                        and in the 42nd year of the rule of Caesar Octavian Augustus, the whole world being at peace,
+                    </p>
+                    <div class="text-center font-bold text-red-900 my-8 text-xl md:text-2xl italic border-t border-b border-amber-200 py-6">
+                        JESUS CHRIST,<br>
+                        <span class="text-base font-normal text-gray-700">eternal God and Son of the eternal Father, desiring to consecrate the world by His most loving presence, was conceived by the Holy Spirit, and when nine months had passed since His conception, was born of the Virgin Mary in Bethlehem of Judah, and was made man:</span><br>
+                        <span class="uppercase tracking-widest mt-4 block">The Nativity of Our Lord Jesus Christ according to the flesh.</span>
+                    </div>
+                </div>
+
+                <div class="mt-6 flex justify-center">
+                    <button onclick="copyToClipboard()" class="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                        Copy Text
+                    </button>
+                    <span id="copyFeedback" class="ml-3 text-green-600 hidden self-center text-sm">Copied!</span>
+                </div>
+            </div>
+
+            <!-- Historical Note -->
+            <div class="bg-amber-50 p-6 rounded border-l-4 border-amber-600 text-sm text-gray-700">
+                <h3 class="font-bold text-amber-800 mb-2">Historical Dating Note (AUC 752)</h3>
+                <p>The Proclamation explicitly cites the year <strong>752 since the founding of Rome</strong> (<em>Ab Urbe Condita</em>). Historically, Rome was founded in 753 BC. Therefore, AUC 752 corresponds to <strong>2 BC</strong>. This text preserves the traditional dating calculation that places the birth of Christ slightly earlier than the "Year 1" of the Dionysian (AD) era.</p>
+            </div>
+
+        </div>
+
+        <!-- Right Column: Calculator & Explanation -->
+        <div class="lg:col-span-5 space-y-8">
+
+            <!-- Calculator Card -->
+            <div class="bg-gray-900 text-white p-6 rounded-lg shadow-xl">
+                <h3 class="text-xl font-bold text-amber-400 mb-4 liturgical-font border-b border-gray-700 pb-2">Lunar Date Calculator</h3>
+                <p class="text-gray-300 text-sm mb-4">Calculate the "Age of the Moon" for Christmas Day for any year.</p>
+                
+                <div class="flex gap-2 mb-6">
+                    <input type="number" id="yearInput" value="2024" class="w-full bg-gray-800 border border-gray-600 text-white rounded px-3 py-2 focus:outline-none focus:border-amber-500" placeholder="Enter Year (AD)">
+                    <button onclick="updateCalculation()" class="bg-amber-600 hover:bg-amber-700 text-white font-bold py-2 px-6 rounded transition">
+                        Calculate
+                    </button>
+                </div>
+
+                <div class="bg-gray-800 rounded p-4 space-y-2 font-mono text-sm">
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Golden Number:</span>
+                        <span id="resGolden" class="text-amber-300">11</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Jan 1 Epact:</span>
+                        <span id="resEpact" class="text-amber-300">19 (xx)</span>
+                    </div>
+                    <div class="flex justify-between border-t border-gray-700 pt-2 mt-2">
+                        <span class="text-gray-300 font-bold">Christmas Moon:</span>
+                        <span id="resMoon" class="text-xl text-white font-bold">24</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Martyrology Letter:</span>
+                        <span id="resLetter" class="text-amber-300">u</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technical Explanation -->
+            <div class="bg-white p-6 rounded-lg shadow border border-gray-200">
+                <h3 class="font-bold text-lg mb-4 text-gray-800">Understanding the Date</h3>
+                <p class="text-sm text-gray-600 mb-4">
+                    <strong>The Eighth Kalends of January:</strong> In the Roman calendar, dates were counted backwards from the <em>Kalends</em> (1st), <em>Nones</em>, or <em>Ides</em>. The Kalends of January is Jan 1. Counting 8 days inclusively backwards (Jan 1, Dec 31, 30, 29, 28, 27, 26, 25) lands on <strong>December 25</strong>.
+                </p>
+
+                <h4 class="font-bold text-sm mt-4 text-gray-800">The Lunar Calculation</h4>
+                <p class="text-xs text-gray-500 mb-2">Based on the Knuth/Gregorian Epact adaptation:</p>
+                <ul class="list-disc list-inside text-xs text-gray-600 space-y-1 font-mono bg-gray-50 p-3 rounded">
+                    <li>Golden Number (g) = (Year % 19) + 1</li>
+                    <li>Epact (e) = Age of Moon on Jan 1</li>
+                    <li>Moon on Dec 25 = (e + 4) % 30 + 1</li>
+                </ul>
+            </div>
+
+            <!-- Reference Table -->
+            <div class="bg-white p-6 rounded-lg shadow border border-gray-200">
+                <h3 class="font-bold text-lg mb-4 text-gray-800">Epact Reference Table</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-xs text-left">
+                        <thead class="bg-gray-100 text-gray-600 uppercase font-bold">
+                            <tr>
+                                <th class="px-2 py-2">Epact</th>
+                                <th class="px-2 py-2">Letter</th>
+                                <th class="px-2 py-2">Moon Age</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 font-mono text-gray-700" id="referenceTable">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="bg-gray-800 text-gray-400 py-6 mt-8 text-center text-sm">
+        <p>Generated for the liturgical celebration of the Nativity.</p>
+    </footer>
+
+    <script>
+        // --- Data & Constants ---
+        
+        // Mapping Epact to Martyrology Letter based on prompt
+        // Index is the Epact number (0-29). 
+        // Note: Epact 30 is usually treated as 0 or 30 ($$). Let's assume 0-29 index.
+        const martyrologyMap = {
+            26: "G", 27: "H", 28: "M", 29: "N", 
+            // The prompt lists "Epact *" for 5th day. * usually denotes 30 or 0 in Epacts.
+            0: "P", 30: "P", 
+            1: "a", 2: "b", 3: "c", 4: "d", 5: "e", 6: "f", 7: "g", 8: "h", 9: "i",
+            10: "k", 11: "l", 12: "m", 13: "n", 14: "p", 15: "q", 16: "r", 17: "s",
+            18: "t", 19: "u", 20: "A", 21: "B", 22: "C", 23: "D", 24: "E", 
+            25: "F" // Special case handled in logic
+        };
+
+        const numberWords = {
+            1: "first", 2: "second", 3: "third", 4: "fourth", 5: "fifth", 
+            6: "sixth", 7: "seventh", 8: "eighth", 9: "ninth", 10: "tenth",
+            11: "eleventh", 12: "twelfth", 13: "thirteenth", 14: "fourteenth", 15: "fifteenth",
+            16: "sixteenth", 17: "seventeenth", 18: "eighteenth", 19: "nineteenth", 20: "twentieth",
+            21: "twenty-first", 22: "twenty-second", 23: "twenty-third", 24: "twenty-fourth", 25: "twenty-fifth",
+            26: "twenty-sixth", 27: "twenty-seventh", 28: "twenty-eighth", 29: "twenty-ninth", 30: "thirtieth"
+        };
+
+        // --- Logic ---
+
+        function calculateLunarData(year) {
+            // 1. Golden Number
+            const g = (year % 19) + 1;
+
+            // 2. Setup Variables
+            const c = Math.floor(year / 100) + 1;
+            const f = (11 * g - 10) % 30; // Foundation
+            let foundation = f < 0 ? f + 30 : f;
+
+            const s = Math.floor((3 * c) / 4) - 12; // Solar Correction
+            const l = Math.floor((8 * c + 5) / 25) - 5; // Lunar Correction
+
+            // 3. Epact Calculation (Gregorian vs Julian logic from prompt)
+            let epact;
+            let m; // Variable used for calculation logic
+
+            if (year >= 1582) { // Gregorian calendar starts in 15 October 1582.
+                // Gregorian
+                epact = (foundation - s + l) % 30;
+                if (epact < 0) epact += 30;
+                m = epact;
+            } else {
+                // Julian fallback logic per prompt
+                // "m = (f + 7) % 30"
+                m = (foundation + 7) % 30;
+                epact = m; // Approximate for display
+            }
+
+            // 4. Christmas Lunar Date Calculation
+            // c_moon = (m + 4) % 30 + 1
+            let moonAge = (m + 4) % 30 + 1;
+
+            // Special Case: "Black epact 25"
+            // "if e == 25 and g > 11: c = 29"
+            if (m === 25 && g > 11) {
+                moonAge = 29;
+            }
+
+            // Get Letter
+            let letter = martyrologyMap[m];
+            if (!letter) letter = "-"; // Fallback
+
+            return {
+                golden: g,
+                epact: m,
+                moonAge: moonAge,
+                letter: letter,
+                moonText: numberWords[moonAge] || moonAge
+            };
+        }
+
+        function updateCalculation() {
+            const yearInput = document.getElementById('yearInput');
+            let year = parseInt(yearInput.value);
+            if (!year) year = new Date().getFullYear();
+
+            const data = calculateLunarData(year);
+
+            // Update UI
+            document.getElementById('displayYear').textContent = year;
+            document.getElementById('lunarText').textContent = `the ${data.moonText}`;
+            
+            // Update Calculator Box
+            document.getElementById('resGolden').textContent = data.golden;
+            document.getElementById('resEpact').textContent = data.epact;
+            document.getElementById('resMoon').textContent = data.moonAge;
+            document.getElementById('resLetter').textContent = data.letter;
+        }
+
+        function copyToClipboard() {
+            // Reconstruct text to ensure cleanliness
+            const year = document.getElementById('displayYear').innerText;
+            const lunar = document.getElementById('lunarText').innerText;
+            
+            // Get the text content from the paragraphs
+            const paragraphs = document.querySelectorAll('.proclamation-text p, .proclamation-text div');
+            let fullText = "";
+            
+            paragraphs.forEach((p, index) => {
+                let text = p.innerText.replace(/\n/g, " ");
+                // Clean up extra spaces
+                text = text.replace(/\s+/g, ' ').trim();
+                fullText += text + "\n\n";
+            });
+
+            // Fallback for clipboard API
+            const textArea = document.createElement("textarea");
+            textArea.value = fullText;
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                const feedback = document.getElementById('copyFeedback');
+                feedback.classList.remove('hidden');
+                setTimeout(() => feedback.classList.add('hidden'), 2000);
+            } catch (err) {
+                console.error('Fallback: Oops, unable to copy', err);
+            }
+            document.body.removeChild(textArea);
+        }
+
+        // Initialize Reference Table
+        function initTable() {
+            const tbody = document.getElementById('referenceTable');
+            const epactOrder = [
+                26, 27, 28, 29, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 
+                11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25
+            ];
+
+            let html = "";
+            let count = 1;
+            
+            epactOrder.forEach(e => {
+                // Calculate resulting moon age for this epact (assuming normal case)
+                // c = (e + 4) % 30 + 1
+                let age = (e + 4) % 30 + 1;
+                let letter = martyrologyMap[e];
+                let displayEpact = (e === 0) ? "*" : e;
+                
+                // Special note for 25
+                let note = e === 25 ? "<span class='text-red-500 text-[10px]'>(29 if g>11)</span>" : "";
+
+                html += `
+                    <tr class="${count % 2 === 0 ? 'bg-gray-50' : 'bg-white'} hover:bg-amber-100">
+                        <td class="px-2 py-1 font-bold border-r">${displayEpact}</td>
+                        <td class="px-2 py-1 border-r text-amber-700">${letter}</td>
+                        <td class="px-2 py-1">${age} ${note}</td>
+                    </tr>
+                `;
+                count++;
+            });
+            tbody.innerHTML = html;
+        }
+
+        // On Load
+        window.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('yearInput').value = new Date().getFullYear();
+            initTable();
+            updateCalculation();
+        });
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Julian Computus Poem Calculator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            background-color: #f3e5ab; /* Parchment base */
+            background-image: 
+                radial-gradient(#d4c58c 1px, transparent 1px),
+                radial-gradient(#d4c58c 1px, transparent 1px);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+            color: #2c1810;
+        }
+        
+        h1, h2, h3, .medieval-font {
+            font-family: 'Cinzel', serif;
+        }
+
+        .parchment-box {
+            background-color: #fdf6e3;
+            border: 2px solid #8b4513;
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.1), inset 0 0 40px rgba(139, 69, 19, 0.1);
+            position: relative;
+        }
+
+        .parchment-box::before {
+            content: '';
+            position: absolute;
+            top: 4px; left: 4px; right: 4px; bottom: 4px;
+            border: 1px solid #d4a065;
+            pointer-events: none;
+        }
+
+        .initial-cap {
+            float: left;
+            font-family: 'Cinzel', serif;
+            font-size: 3.5rem;
+            line-height: 0.8;
+            padding-top: 0.1em;
+            padding-right: 0.1em;
+            color: #8b0000;
+        }
+
+        .input-medieval {
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid #8b4513;
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            color: #4a0404;
+            text-align: center;
+            width: 120px;
+        }
+        .input-medieval:focus {
+            outline: none;
+            border-bottom: 2px solid #d97706;
+        }
+
+        .btn-medieval {
+            background-color: #8b4513;
+            color: #f3e5ab;
+            font-family: 'Cinzel', serif;
+            border: 2px solid #5e2f0d;
+            transition: all 0.3s ease;
+        }
+        .btn-medieval:hover {
+            background-color: #a0522d;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .table-medieval th {
+            font-family: 'Cinzel', serif;
+            color: #8b0000;
+            border-bottom: 2px solid #8b4513;
+        }
+        .table-medieval td {
+            border-bottom: 1px dashed #d4a065;
+        }
+        .highlight-row {
+            background-color: rgba(217, 119, 6, 0.2);
+            font-weight: bold;
+            color: #6b0f0f;
+        }
+
+        /* Decorative Corners */
+        .corner-decoration {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #8b0000;
+            transition: all 0.3s;
+        }
+        .top-left { top: 8px; left: 8px; border-right: none; border-bottom: none; }
+        .top-right { top: 8px; right: 8px; border-left: none; border-bottom: none; }
+        .bottom-left { bottom: 8px; left: 8px; border-right: none; border-top: none; }
+        .bottom-right { bottom: 8px; right: 8px; border-left: none; border-top: none; }
+
+    </style>
+</head>
+<body class="min-h-screen p-4 md:p-8 flex flex-col items-center">
+
+    <main class="w-full max-w-4xl space-y-8">
+        
+        <!-- Header Section -->
+        <header class="text-center space-y-2">
+            <h1 class="text-4xl md:text-5xl font-bold text-red-900 drop-shadow-sm">The Julian Computus</h1>
+            <p class="text-lg text-amber-900 italic">For finding Easter according to the ancient cycle</p>
+        </header>
+
+        <!-- Calculator Section -->
+        <section class="parchment-box p-8 rounded-lg">
+            <div class="corner-decoration top-left"></div>
+            <div class="corner-decoration top-right"></div>
+            <div class="corner-decoration bottom-left"></div>
+            <div class="corner-decoration bottom-right"></div>
+
+            <div class="flex flex-col md:flex-row items-center justify-center gap-6 mb-8">
+                <div class="text-xl">
+                    <label for="yearInput" class="mr-2 font-bold">Anno Domini:</label>
+                    <input type="number" id="yearInput" class="input-medieval" value="2025" min="1" onchange="calculateEaster()">
+                </div>
+                <button onclick="calculateEaster()" class="btn-medieval px-6 py-2 rounded text-lg font-bold uppercase tracking-wider cursor-pointer">
+                    Calculate Easter
+                </button>
+            </div>
+
+            <div id="resultContainer" class="hidden animate-fade-in">
+                <div class="border-t-2 border-amber-900/30 pt-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        
+                        <!-- Mathematical Results -->
+                        <div class="space-y-3">
+                            <h3 class="text-2xl text-red-900 border-b border-red-900/30 pb-1">Calculation Steps</h3>
+                            <div class="flex justify-between">
+                                <span>Golden Number (Cycle of 19):</span>
+                                <span id="resGoldenNumber" class="font-bold font-mono text-lg"></span>
+                            </div>
+                            <div class="flex justify-between text-stone-600 text-sm italic">
+                                <span>Equation:</span>
+                                <span>(Year % 19) + 1</span>
+                            </div>
+                            
+                            <div class="flex justify-between mt-2">
+                                <span>Concurrent (Solar Index):</span>
+                                <span id="resConcurrent" class="font-bold font-mono text-lg"></span>
+                            </div>
+                            <div class="flex justify-between text-stone-600 text-sm italic">
+                                <span>Equation:</span>
+                                <span>(y + y//4 + 3) % 7 + 1</span>
+                            </div>
+
+                            <div class="flex justify-between mt-2">
+                                <span>Poem Day Index (Column III):</span>
+                                <span id="resDayIndex" class="font-bold font-mono text-lg"></span>
+                            </div>
+
+                            <div class="flex justify-between mt-2">
+                                <span>Paschal Full Moon (PFM):</span>
+                                <span id="resPFM" class="font-bold text-lg"></span>
+                            </div>
+                            
+                            <div class="flex justify-between mt-2 text-stone-700">
+                                <span>Epact:</span>
+                                <span id="resEpact" class="font-bold font-mono text-lg"></span>
+                            </div>
+
+                            <div class="flex justify-between mt-2">
+                                <span>Weekday of PFM:</span>
+                                <span id="resPFMWeekday" class="font-bold text-lg"></span>
+                            </div>
+                        </div>
+
+                        <!-- Final Result -->
+                        <div class="flex flex-col items-center justify-center bg-amber-900/5 rounded p-6 border border-amber-900/10">
+                            <h3 class="text-xl text-amber-900 mb-2 uppercase tracking-widest">Julian Easter Date</h3>
+                            <div id="resEasterDate" class="text-4xl md:text-5xl font-bold text-red-800 text-center font-serif leading-tight"></div>
+                            <div id="resGregorianNote" class="text-sm text-stone-500 mt-4 text-center italic"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- The Poem / Table -->
+        <section class="parchment-box p-6 md:p-8 rounded-lg overflow-x-auto">
+            <h2 class="text-3xl text-center mb-6 text-red-900">The Computus Poem</h2>
+            <p class="mb-4 text-justify">
+                <span class="initial-cap">B</span>elow is the cycle of 19 years. The Golden Number determines which line of the poem applies to the current year. Column III (Day Index) is used with the Concurrent to find the day of the week.
+            </p>
+            
+            <table class="w-full text-left table-medieval border-collapse min-w-[600px]">
+                <thead>
+                    <tr class="text-lg">
+                        <th class="p-2 w-12 text-center">GN</th>
+                        <th class="p-2">Poem Semiline 1</th>
+                        <th class="p-2">Poem Semiline 2</th>
+                        <th class="p-2 text-center">Day Index (III)</th>
+                        <th class="p-2 text-right">PFM Date</th>
+                        <th class="p-2 text-right">Epact</th>
+                    </tr>
+                </thead>
+                <tbody id="poemTableBody" class="text-lg leading-relaxed">
+                    <!-- Javascript will populate this -->
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Poetic Translation Section -->
+        <section class="parchment-box p-6 md:p-8 rounded-lg">
+            <h2 class="text-3xl text-center mb-6 text-red-900">Translation & Modern Dates</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-lg leading-relaxed">
+                <div>
+                    <h3 class="font-bold text-amber-900 mb-2 border-b border-amber-900/30">Original Latin</h3>
+                    <p class="italic space-y-1">
+                        Nonae Aprilis norunt quinos<br>
+                        octonae kalendae assim depromunt.<br>
+                        Idus Aprilis etiam sexis,<br>
+                        nonae quaternae namque dipondio.<br>
+                        Item undene ambiunt quinos,<br>
+                        quatuor idus capiunt ternos.<br>
+                        Ternas kalendas titulant seni,<br>
+                        quatuor dene cubant in quadris.<br>
+                        Septenas idus septem eligunt,<br>
+                        senae kalendae sortiunt ternos,<br>
+                        denis septenis donant assim.<br>
+                        Pridie nonas porro quaternis,<br>
+                        nonae kalendae notantur septenis.<br>
+                        Pridie idus panditur quinis,<br>
+                        kalendas Aprilis exprimunt unus.<br>
+                        Duodene namque docte quaternis,<br>
+                        speciem quintam speramus duobus.<br>
+                        Quaternae kalendae quinque coniciunt,<br>
+                        quindene constant tribus adeptis.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="font-bold text-amber-900 mb-2 border-b border-amber-900/30">English Translation & Dates</h3>
+                    <p class="space-y-1">
+                        The Nones of April (Apr 5) know five (V)<br>
+                        The 8th Kalends (Mar 25) bring out one (I).<br>
+                        The Ides of April (Apr 13) also with six (VI),<br>
+                        The 4th Nones (Apr 2) for with two (II).<br>
+                        Likewise the 11th (Mar 22) surround five (V),<br>
+                        The 4th Ides (Apr 10) take three (III).<br>
+                        The 3rd Kalends (Mar 30) call six (VI),<br>
+                        The 14th (Apr 18) lie in four (IV).<br>
+                        The 7th Ides (Apr 7) choose seven (VII),<br>
+                        The 6th Kalends (Mar 27) allot three (III),<br>
+                        The 17th (Apr 15) give one (I).<br>
+                        The day before Nones (Apr 4) furthermore with four (IV),<br>
+                        The 9th Kalends (Mar 24) are marked with seven (VII).<br>
+                        The day before Ides (Apr 12) is opened with five (V),<br>
+                        The Kalends of April (Apr 1) express one (I).<br>
+                        For the 12th (Mar 21) taught with four (IV),<br>
+                        The 5th appearance (Apr 9) we hope for with two (II).<br>
+                        The 4th Kalends (Mar 29) bring together five (V),<br>
+                        The 15th (Apr 17) stand with three obtained (III).
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Logic Explanation -->
+        <footer class="text-stone-700 text-sm max-w-2xl mx-auto space-y-2 pb-8">
+            <h3 class="font-bold text-lg text-center text-stone-900">How to Calculate</h3>
+            <p>1. <strong>Concurrent:</strong> Represents the solar cycle offset. Calculated as <code>(y + y/4 + 3) % 7 + 1</code>.</p>
+            <p>2. <strong>Weekday of PFM:</strong> We add the poem's Day Index (Col III) to the Concurrent and take modulo 7. <br><em class="text-xs">(0=Sat, 1=Sun, 2=Mon, 3=Tue, 4=Wed, 5=Thu, 6=Fri)</em></p>
+            <p>3. <strong>Easter:</strong> Easter is the Sunday <em>after</em> the Paschal Full Moon. <br>Formula: <code>PFM + 7 - (weekday - 1) % 7</code>.</p>
+        </footer>
+
+    </main>
+
+    <script>
+        // Data derived from the User's prompt
+        const poemData = [
+            { gn: 1,  line1: "Nonae Aprilis",    line2: "norunt quinos",      idxRom: "V",   idxVal: 5, pfmDisplay: "5 April",   month: 4, day: 5, epact: "8" },
+            { gn: 2,  line1: "octonae kalendae", line2: "assim depromunt.",   idxRom: "I",   idxVal: 1, pfmDisplay: "25 March",  month: 3, day: 25, epact: "19" },
+            { gn: 3,  line1: "Idus Aprilis",     line2: "etiam sexis,",       idxRom: "VI",  idxVal: 6, pfmDisplay: "13 April",  month: 4, day: 13, epact: "*" },
+            { gn: 4,  line1: "nonae quaternae",  line2: "namque dipondio.",   idxRom: "II",  idxVal: 2, pfmDisplay: "2 April",   month: 4, day: 2, epact: "11" },
+            { gn: 5,  line1: "Item undene",      line2: "ambiunt quinos,",    idxRom: "V",   idxVal: 5, pfmDisplay: "22 March",  month: 3, day: 22, epact: "22" },
+            { gn: 6,  line1: "quatuor idus",     line2: "capiunt ternos.",    idxRom: "III", idxVal: 3, pfmDisplay: "10 April",  month: 4, day: 10, epact: "3" },
+            { gn: 7,  line1: "Ternas kalendas",  line2: "titulant seni,",     idxRom: "VI",  idxVal: 6, pfmDisplay: "30 March",  month: 3, day: 30, epact: "14" },
+            { gn: 8,  line1: "quatuor dene",     line2: "cubant in quadris.", idxRom: "IV",  idxVal: 4, pfmDisplay: "18 April",  month: 4, day: 18, epact: "25" },
+            { gn: 9,  line1: "Septenas idus",    line2: "septem eligunt,",    idxRom: "VII", idxVal: 7, pfmDisplay: "7 April",   month: 4, day: 7, epact: "6" },
+            { gn: 10, line1: "senae kalendae",   line2: "sortiunt ternos,",   idxRom: "III", idxVal: 3, pfmDisplay: "27 March",  month: 3, day: 27, epact: "17" },
+            { gn: 11, line1: "denis septenis",   line2: "donant assim.",      idxRom: "I",   idxVal: 1, pfmDisplay: "15 April",  month: 4, day: 15, epact: "28" },
+            { gn: 12, line1: "Pridie nonas",     line2: "porro quaternis,",   idxRom: "IV",  idxVal: 4, pfmDisplay: "4 April",   month: 4, day: 4, epact: "9" },
+            { gn: 13, line1: "nonae kalendae",   line2: "notantur septenis.", idxRom: "VII", idxVal: 7, pfmDisplay: "24 March",  month: 3, day: 24, epact: "20" },
+            { gn: 14, line1: "Pridie idus",      line2: "panditur quinis,",   idxRom: "V",   idxVal: 5, pfmDisplay: "12 April",  month: 4, day: 12, epact: "1" },
+            { gn: 15, line1: "kalendas Aprilis", line2: "exprimunt unus.",    idxRom: "I",   idxVal: 1, pfmDisplay: "1 April",   month: 4, day: 1, epact: "12" },
+            { gn: 16, line1: "Duodene namque",   line2: "docte quaternis,",   idxRom: "IV",  idxVal: 4, pfmDisplay: "21 March",  month: 3, day: 21, epact: "23" },
+            { gn: 17, line1: "speciem quintam",  line2: "speramus duobus.",   idxRom: "II",  idxVal: 2, pfmDisplay: "9 April",   month: 4, day: 9, epact: "4" },
+            { gn: 18, line1: "Quaternae kalendae", line2: "quinque coniciunt,",idxRom: "V",   idxVal: 5, pfmDisplay: "29 March",  month: 3, day: 29, epact: "15" },
+            { gn: 19, line1: "quindene constant", line2: "tribus adeptis.",   idxRom: "III", idxVal: 3, pfmDisplay: "17 April",  month: 4, day: 17, epact: "26" },
+        ];
+
+        const weekdayNames = [
+            "Saturday (0)", "Sunday (1)", "Monday (2)", "Tuesday (3)", "Wednesday (4)", "Thursday (5)", "Friday (6)"
+        ];
+
+        function getDayOfYear(month, day) {
+            // Simplified for March/April/May relative to March 1st = 1
+            // March has 31 days.
+            if (month === 3) return day;
+            if (month === 4) return 31 + day;
+            if (month === 5) return 31 + 30 + day; // Unlikely for PFM but possible for Easter
+            return 0;
+        }
+
+        function getDateFromDayOffset(offset) {
+            // Converts offset (relative to March 1) back to Date string
+            if (offset <= 31) return `${offset} March`;
+            let remainder = offset - 31;
+            if (remainder <= 30) return `${remainder} April`;
+            remainder = remainder - 30;
+            return `${remainder} May`;
+        }
+
+        function renderTable(activeGN) {
+            const tbody = document.getElementById('poemTableBody');
+            tbody.innerHTML = '';
+
+            poemData.forEach(row => {
+                const tr = document.createElement('tr');
+                if (row.gn === activeGN) {
+                    tr.classList.add('highlight-row');
+                }
+                
+                tr.innerHTML = `
+                    <td class="p-2 text-center font-bold">${row.gn}</td>
+                    <td class="p-2 italic">${row.line1}</td>
+                    <td class="p-2 italic">${row.line2}</td>
+                    <td class="p-2 text-center font-mono">${row.idxRom}</td>
+                    <td class="p-2 text-right">${row.pfmDisplay}</td>
+                    <td class="p-2 text-right font-mono">${row.epact}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function calculateEaster() {
+            const yearInput = document.getElementById('yearInput');
+            const year = parseInt(yearInput.value);
+
+            if (!year || year < 1) return;
+
+            // 1. Calculate Golden Number (1-19)
+            // Note: Mathematical modulo can result in 0, so we adjust logic
+            const goldenNumber = (year % 19) + 1;
+            
+            // 2. Get Poem Data
+            // Array is 0-indexed, GN is 1-indexed
+            const data = poemData[goldenNumber - 1];
+
+            // 3. Calculate Concurrent
+            // Formula: (y + y //4 + 3) % 7 + 1
+            const concurrent = (year + Math.floor(year / 4) + 3) % 7 + 1;
+
+            // 4. Calculate Weekday of PFM
+            // Formula: (index + concurrent) % 7
+            // 0=Sat, 1=Sun, 2=Mon, 3=Tue, 4=Wed, 5=Thu, 6=Fri
+            const pfmWeekdayIndex = (data.idxVal + concurrent) % 7;
+            const weekdayName = weekdayNames[pfmWeekdayIndex];
+
+            // 5. Calculate Easter Date
+            // Formula provided: PFM + 7 - (weekday - 1) % 7
+            
+            const pfmOffset = getDayOfYear(data.month, data.day);
+            
+            let formulaTerm = (pfmWeekdayIndex - 1) % 7;
+            if (formulaTerm < 0) formulaTerm += 7; // Fix negative modulo for JS
+            
+            const daysToAdd = 7 - formulaTerm;
+            const easterOffset = pfmOffset + daysToAdd;
+            const easterDateStr = getDateFromDayOffset(easterOffset);
+
+            // Update UI
+            document.getElementById('resultContainer').classList.remove('hidden');
+            
+            document.getElementById('resGoldenNumber').innerText = goldenNumber;
+            document.getElementById('resConcurrent').innerText = concurrent;
+            document.getElementById('resDayIndex').innerText = `${data.idxRom} (${data.idxVal})`;
+            document.getElementById('resPFM').innerText = data.pfmDisplay;
+            document.getElementById('resEpact').innerText = data.epact; // Added Epact display
+            document.getElementById('resPFMWeekday').innerText = weekdayName;
+            
+            document.getElementById('resEasterDate').innerText = easterDateStr;
+
+            // Gregorian Check
+            let gregMsg = "";
+            if (year > 1582) {
+                const century = Math.floor(year / 100);
+                const diff = century - Math.floor(century / 4) - 2;
+                gregMsg = `(Note: This is the Julian date. For modern Gregorian/Civil calendars, add ${diff} days)`;
+            } else {
+                gregMsg = "(Valid for Western Church before 1583)";
+            }
+            document.getElementById('resGregorianNote').innerText = gregMsg;
+
+            // Update Table Highlight
+            renderTable(goldenNumber);
+        }
+
+        // Initialize on load
+        window.onload = function() {
+            calculateEaster();
+        }
+    </script>
+</body>
+</html>

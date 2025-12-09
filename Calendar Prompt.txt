@@ -1,0 +1,29 @@
+Make me an interactive HTML5 page based on my python modules, supporting Julian Easter (with choice to force Julian Easter), Epiphany/Ascension/Corpus Christi transfer (default Sundays for all, which choice to force traditional days).
+
+With full year info as well as doomsdays. And list of feast days as well as ALL Sundays.
+
+With full liturgical proclamations by calendrical order (Noveritis (Epiphany) -> Exsultet (Easter Vigil) -> Kalenda (Christmas)) in tabs
+
+Heading font: Ysabeau
+Body font: EB Garamond
+Red is defined as #DA251D (the color of rubric as well as national flag of Vietnam)
+Colors of the day for Doomsdays: (Thai tradition)
+- Sunday - #DA251D (Red - used for the Feasts of Passions of the Lord, Martyrs, Apostles, Evangelists)
+- Monday - #FFFF00 (Yellow - used for Easter Vigil and Easter Octave)
+- Tuesday - #FF0080 (Rose - used for 3rd Sunday of Advent and 4th Sunday of Lent)
+- Wednesday - #008000 (Green - used for Ordinary Time)
+- Thursday - #FF8000 (Saffron)
+- Friday - #3399FF (Blue - the blue of Viet Cong flag, used for Marian feasts)
+- Saturday - #800080 (Violet - used for Advent, Lent, All Souls)
+Black is defined: #000000
+
+Liturgical color uses:
+Green (#008000) - Ordinary Time
+Violet (#800080) - Advent and Lent, All Souls and Funerals
+Rose (#ff0080) - 3rd Sunday of Advent and 4th Sunday of Lent
+White (#ffffff) - Christmastide and Eastertide, Maundy Thursday, Feasts of the Lord, all confessors, Saint John the Evangelist, Nativity of John the Evangelist
+Red (#da251d) - Feasts of the Passion of the Lord (e.g. Palm Sunday, Good Friday, Exaltation of the Cross) Pentecost, Martys, Apostles, Evangelists, Papal Funerals
+Black (#000000) - Holy Saturday proper
+Yellow (#ffff00) - Easter Vigil and Easter Octave
+Blue (#3399ff) - Feasts of Virgin Mary, New Year's Day
+Red+Green: Christmas Octave (except 26-28 December falling on weekdays)
