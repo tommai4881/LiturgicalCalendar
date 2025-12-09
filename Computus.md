@@ -54,8 +54,19 @@ def Clavian(year):
     if march >= 31: return (april, 4)
     else: return (march, 3)
 ```
-### Bradleyan Computus (by James Bradley, from Book of Common Prayer)
+### Bradleyan Computus (by James Bradley, from Calendar (New Style) Act 1750 and Book of Common Prayer)
 ```python
 def Bradley(year):
-    
+    g = year % 19 + 1
+    k = year // 10
+    s = k - 16 - (k - 16) // 4
+    l = 8 * (k - 14) // 25
+    c = s - l # Cypher
+    p = (3 - 11 * g + c) % 30 if y > 1582 else (26 - 11 * g) % 30 # Paschal full moon
+    if p == 29 or (p == 28 and g > 11): p -= 1 # Edge case
+    d = (y + y // 4 - k + k // 4) % 7 if y > 1582 else (y + y // 4 + 5) % 7 # DOW of January 1
+    march = p + 22 + (4 - d - p) % 7
+    april = p - 9 + (4 - d - p) % 7
+    if march >= 31: return (april, 4)
+    else: return (march, 3)    
 ```
