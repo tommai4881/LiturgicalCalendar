@@ -22,7 +22,7 @@ def Julian(year):
 def Typikon(year):
     l = (year + 16) % 19 + 1 # Lunar Cycle
     s = (year + 19) % 28 + 1 # Solar Cycle
-    f = (11 * lunar + 3) % 30 # The Foundation (Age of the Moon as of March 1), i.e. the Lilianized Julian Epact
+    f = (11 * lunar + 3) % 30 # The Foundation (Age of the Moon as of March 3)
     if l > 16: f = (f + 1) % 30 # Saltus Lunae correction
     # Simple Foundation formula: f = 11 * (y % 19 + 1) % 30
     pfm = 47 - f if f < 27 else 77 - f
