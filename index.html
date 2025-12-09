@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liturgical Scripts Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: #fdfbf7;
+            color: #2d2d2d;
+        }
+        h1, h2, h3, .liturgical-font {
+            font-family: 'Cinzel', serif;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-gray-900 text-amber-50 py-10 shadow-lg border-b-8 border-amber-600">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-4xl md:text-6xl font-bold mb-4">Liturgical Scripts Hub</h1>
+            <p class="text-xl text-amber-200 italic">A collection of tools and reflections for the Liturgical Year</p>
+        </div>
+    </header>
+
+    <main class="flex-grow container mx-auto px-4 py-12">
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+            <!-- Advent Section -->
+            <div class="col-span-1 md:col-span-2 lg:col-span-3 pb-4 border-b border-gray-300">
+                <h2 class="text-3xl text-purple-900 font-bold mb-6 flex items-center">
+                    <span class="bg-purple-100 p-2 rounded-full mr-3 text-2xl">🕯️</span>
+                    Advent & Christmas
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                    <!-- Advent Calendar -->
+                    <a href="AdventCalendar.html" class="block bg-white rounded-xl shadow-md border-l-4 border-purple-600 overflow-hidden card-hover transition-all duration-300 group">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-800 mb-2 group-hover:text-purple-700">The Five Parts of Advent</h3>
+                            <p class="text-gray-600 text-sm mb-4">A comprehensive lectionary journey through the Advent season, featuring an interactive calculator for the Advent Wreath vs. Calendar.</p>
+                            <span class="text-xs font-bold uppercase tracking-wider text-purple-600">Essay & Interactive Tool</span>
+                        </div>
+                    </a>
+
+                    <!-- Advent Companion -->
+                    <a href="AdventCompanion.html" class="block bg-white rounded-xl shadow-md border-l-4 border-purple-500 overflow-hidden card-hover transition-all duration-300 group">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-800 mb-2 group-hover:text-purple-700">Advent Weekday Companion</h3>
+                            <p class="text-gray-600 text-sm mb-4">Daily reflections, context, and lessons for the weekdays of Advent. (React App)</p>
+                            <span class="text-xs font-bold uppercase tracking-wider text-purple-600">Web App</span>
+                        </div>
+                    </a>
+
+                    <!-- Christmas Kalenda -->
+                    <a href="Christmas Kalenda.html" class="block bg-white rounded-xl shadow-md border-l-4 border-red-700 overflow-hidden card-hover transition-all duration-300 group">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-800 mb-2 group-hover:text-red-700">The Christmas Kalenda</h3>
+                            <p class="text-gray-600 text-sm mb-4">The formal Proclamation of the Birth of Christ with a live lunar date calculator for the Martyrology.</p>
+                            <span class="text-xs font-bold uppercase tracking-wider text-red-700">Tool & Proclamation</span>
+                        </div>
+                    </a>
+
+                    <!-- Kalenda (Static) -->
+                    <a href="Kalenda.html" class="block bg-white rounded-xl shadow-md border-l-4 border-red-900 overflow-hidden card-hover transition-all duration-300 group">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-800 mb-2 group-hover:text-red-900">Static Kalenda</h3>
+                            <p class="text-gray-600 text-sm mb-4">A printable-style parchment view of the Christmas Proclamation.</p>
+                            <span class="text-xs font-bold uppercase tracking-wider text-red-900">Document</span>
+                        </div>
+                    </a>
+
+                     <!-- VN Versions -->
+                     <a href="Kalenda_VN.html" class="block bg-white rounded-xl shadow-md border-l-4 border-yellow-500 overflow-hidden card-hover transition-all duration-300 group">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-800 mb-2 group-hover:text-yellow-600">Kalenda (Vietnamese)</h3>
+                            <p class="text-gray-600 text-sm mb-4">The Christmas Proclamation in Vietnamese.</p>
+                            <span class="text-xs font-bold uppercase tracking-wider text-yellow-600">Tiếng Việt</span>
+                        </div>
+                    </a>
+
+                </div>
+            </div>
+
+            <!-- Lent & Easter Section -->
+            <div class="col-span-1 md:col-span-2 lg:col-span-3 pb-4 border-b border-gray-300 mt-8">
+                <h2 class="text-3xl text-purple-900 font-bold mb-6 flex items-center">
+                    <span class="bg-purple-100 p-2 rounded-full mr-3 text-2xl">✝️</span>
+                    Lent & Easter
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                    <!-- Lenten Calendar -->
+                    <a href="LentenCalendar.html" class="block bg-white rounded-xl shadow-md border-l-4 border-purple-800 overflow-hidden card-hover transition-all duration-300 group">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-800 mb-2 group-hover:text-purple-900">Lenten Calendar</h3>
+                            <p class="text-gray-600 text-sm mb-4">Resources and calendar for the Season of Lent.</p>
+                            <span class="text-xs font-bold uppercase tracking-wider text-purple-800">Season Guide</span>
+                        </div>
+                    </a>
+
+                    <!-- Julian Easter -->
+                    <a href="Julian Easter.html" class="block bg-white rounded-xl shadow-md border-l-4 border-blue-600 overflow-hidden card-hover transition-all duration-300 group">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-800 mb-2 group-hover:text-blue-700">Julian Easter Calculator</h3>
+                            <p class="text-gray-600 text-sm mb-4">Calculate the date of Easter according to the Julian Calendar (Eastern Orthodox).</p>
+                            <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Tool</span>
+                        </div>
+                    </a>
+
+                    <!-- Noveritis VN -->
+                    <a href="Noveritis_VN.html" class="block bg-white rounded-xl shadow-md border-l-4 border-yellow-500 overflow-hidden card-hover transition-all duration-300 group">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-800 mb-2 group-hover:text-yellow-600">Noveritis (Epiphany Proclamation)</h3>
+                            <p class="text-gray-600 text-sm mb-4">The announcement of Easter and the Moveable Feasts (Vietnamese).</p>
+                            <span class="text-xs font-bold uppercase tracking-wider text-yellow-600">Tiếng Việt</span>
+                        </div>
+                    </a>
+
+                </div>
+            </div>
+
+            <!-- General Calendars -->
+            <div class="col-span-1 md:col-span-2 lg:col-span-3 mt-8">
+                <h2 class="text-3xl text-gray-800 font-bold mb-6 flex items-center">
+                    <span class="bg-gray-100 p-2 rounded-full mr-3 text-2xl">📅</span>
+                    General Calendars
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                    <a href="CALENDAR.html" class="block bg-white rounded-xl shadow-md border-l-4 border-gray-500 overflow-hidden card-hover transition-all duration-300 group">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-800 mb-2 group-hover:text-blue-600">General Calendar</h3>
+                            <p class="text-gray-600 text-sm mb-4">A general calendar view.</p>
+                            <span class="text-xs font-bold uppercase tracking-wider text-gray-500">Tool</span>
+                        </div>
+                    </a>
+
+                    <a href="calendar2025.html" class="block bg-white rounded-xl shadow-md border-l-4 border-green-600 overflow-hidden card-hover transition-all duration-300 group">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-800 mb-2 group-hover:text-green-700">Calendar 2025</h3>
+                            <p class="text-gray-600 text-sm mb-4">Specific calendar layout for the year 2025.</p>
+                            <span class="text-xs font-bold uppercase tracking-wider text-green-600">Yearly View</span>
+                        </div>
+                    </a>
+
+                </div>
+            </div>
+
+             <!-- Python Sources -->
+             <div class="col-span-1 md:col-span-2 lg:col-span-3 mt-8 pt-8 border-t border-gray-200">
+                <h3 class="text-xl text-gray-600 font-bold mb-4">Python Source Files (Logic)</h3>
+                <div class="flex flex-wrap gap-3">
+                    <span class="bg-gray-100 text-gray-600 px-3 py-1 rounded text-sm font-mono border border-gray-300">advent.py</span>
+                    <span class="bg-gray-100 text-gray-600 px-3 py-1 rounded text-sm font-mono border border-gray-300">easter.py</span>
+                    <span class="bg-gray-100 text-gray-600 px-3 py-1 rounded text-sm font-mono border border-gray-300">lent.py</span>
+                    <span class="bg-gray-100 text-gray-600 px-3 py-1 rounded text-sm font-mono border border-gray-300">Kalenda.py</span>
+                    <span class="bg-gray-100 text-gray-600 px-3 py-1 rounded text-sm font-mono border border-gray-300">Noveritis.py</span>
+                    <span class="bg-gray-100 text-gray-600 px-3 py-1 rounded text-sm font-mono border border-gray-300">Exsultet.py</span>
+                    <span class="bg-gray-100 text-gray-600 px-3 py-1 rounded text-sm font-mono border border-gray-300">YearInfo.py</span>
+                    <span class="bg-gray-100 text-gray-600 px-3 py-1 rounded text-sm font-mono border border-gray-300">ordinarytime.py</span>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="bg-gray-800 text-gray-400 py-8 text-center">
+        <p class="mb-2">Liturgical Scripts Repository</p>
+        <p class="text-xs opacity-50">&copy; 2024</p>
+    </footer>
+
+</body>
+</html>
